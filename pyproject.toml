@@ -1,0 +1,28 @@
+[project]
+name = "metalmind"
+version = "0.1.0"
+description = "Knowledge graph-driven human-centric knowledge system for metal additive manufacturing"
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=1.30.0",
+    "neo4j>=5.19.0",
+    "sentence-transformers>=2.6.0",
+    "scikit-learn>=1.4.0",
+    "numpy>=1.26.0",
+    "tiktoken>=0.6.0",
+    "python-dotenv>=1.0.0",
+    "tqdm>=4.66.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["metalmind*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

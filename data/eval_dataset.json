@@ -1,0 +1,32 @@
+[
+  {
+    "query": "What alcohol concentration is required for wiper cleaning?",
+    "ground_truth": "Wiper cleaning requires a 99% alcohol concentration to fully remove residual metal particles from the wiper surface; lower concentrations risk leaving residue that can contaminate later builds.",
+    "type": "granular"
+  },
+  {
+    "query": "Where is the upper safe change filter valve located?",
+    "ground_truth": "The upper safe change filter valve, Valve (F1), is located on the KF flange of the safe change filter assembly.",
+    "type": "granular"
+  },
+  {
+    "query": "What does the small powder bottle connect to?",
+    "ground_truth": "The small powder bottle connects to the powder delivery system that feeds the recoater, and is refilled from the main powder hopper.",
+    "type": "granular"
+  },
+  {
+    "query": "How often should the chiller be checked and what does it regulate?",
+    "ground_truth": "The chiller must be checked weekly for coolant level; it regulates the temperature of the laser optics and the build chamber.",
+    "type": "granular"
+  },
+  {
+    "query": "Describe the end-to-end relationship between the powder system, the recoater, and the build plate during a print.",
+    "ground_truth": "The small powder bottle feeds powder to the recoater system; the recoater blade spreads a thin, uniform layer of that powder across the build plate before each layer is fused by the laser. The build plate is heated and leveled beforehand, and the blade travels directly across it on every pass, so blade condition, plate leveling, and powder supply are all interdependent for consistent layer quality.",
+    "type": "global"
+  },
+  {
+    "query": "What maintenance steps and equipment interact with the safe change filter assembly, and why do they matter for machine reliability?",
+    "ground_truth": "The chiller connects to the machine via the safe change filter assembly and must be checked weekly for coolant level. The assembly's upper isolating valve (F1), on its KF flange, is opened during maintenance to fill the filter housing with water before the filter cartridge is replaced -- linking chiller upkeep and filter servicing as parts of the same maintenance subsystem.",
+    "type": "global"
+  }
+]

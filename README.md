@@ -1,0 +1,94 @@
+# MetalMind (implementation)
+
+An implementation of the KG-construction pipeline and multi-faceted (vector / graph / hybrid)
+retrieval-and-evaluation system described in *"MetalMind: A knowledge graph-driven human-centric
+knowledge system for metal additive manufacturing"* (Fan et al., npj Advanced Manufacturing, 2025).
+
+## Scope
+
+This repo implements:
+
+- **Automated KG construction** (`metalmind/kg_construction`, `metalmind/preprocessing`): Markdown
+  ingestion, 600-token/100-overlap chunking, LLM-powered schema-free → schema-derivation →
+  schema-based extraction (Algorithm 1 in the paper), entity/chunk embeddings, and image nodes.
+- **Post-processing** (`metalmind/postprocessing`): standalone-node pruning and
+  embedding-similarity duplicate detection, producing a review queue for the paper's
+  collaborative accept/reject step (`scripts/apply_dedup.py` applies the decisions).
+- **Multi-faceted RAG** (`metalmind/retrieval`, `metalmind/rag`): vector-based, graph-traversal, and
+  hybrid retrieval modes over a Neo4j-backed KG, plus text→image retrieval.
+- **Evaluation harness** (`metalmind/evaluation`): faithfulness, answer relevancy, context
+  precision/recall (RAGAS-style, LLM-judged), domain rubric scoring, and the paper's 70/30
+  accuracy-vs-token-efficiency composite score.
+
+**Not implemented** (out of scope for a code repo — needs dedicated hardware/licensed SDKs):
+the MR headset interface, the Omniverse-based synthetic-data action-recognition model, and the
+web UI for collaborative node review (its underlying dedup logic is implemented and scriptable).
+
+## Setup
+
+```bash
+cp .env.example .env        # fill in OPENAI_API_KEY at minimum
+docker compose up -d        # starts Neo4j (bolt://localhost:7687, browser at :7474)
+
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+```
+
+## Usage
+
+**1. Build the knowledge graph** from a directory of Markdown documents (see
+`data/sample_docs/` for a tiny worked example standing in for the paper's Renishaw AM400 user
+guide):
+
+```bash
+python -m scripts.build_kg --docs data/sample_docs --wipe
+```
+
+This runs Algorithm 1 end-to-end, prunes standalone nodes, writes candidate duplicate pairs to
+`dedup_candidates.json` for review, and loads the resulting graph into Neo4j.
+
+To also load images, pass `--images manifest.json` where the manifest maps
+`{"image_id": {"url": ..., "caption": ..., "source_chunk_id": ...}}`.
+
+**2. Review and apply duplicate merges** (the paper's collaborative verification step):
+
+review `dedup_candidates.json`, write your accept/reject decisions as
+`[{"a": "<key to keep>", "b": "<key to remove>", "merge": true}, ...]`, then:
+
+```bash
+python -m scripts.apply_dedup --decisions decisions.json
+```
+
+**3. Evaluate retrieval modes** against a query/ground-truth dataset (see
+`data/eval_dataset.json` for the schema — a small template standing in for the paper's 100-query,
+70-granular/30-global evaluation set):
+
+```bash
+python -m scripts.evaluate --dataset data/eval_dataset.json
+```
+
+Prints the per-mode/per-metric table (mirroring Fig. 2) and the composite token-efficiency scores
+(mirroring Table 1).
+
+## Tests
+
+```bash
+pytest
+```
+
+All tests run offline: `tests/conftest.py` mocks the sentence-transformers embedding model and
+tiktoken's encoding so no network access or GPU is required to validate the pipeline logic
+(chunking, extraction/relation wiring, dedup, pruning, retrieval, metrics, composite scoring).
+
+## Architecture notes
+
+- Entities are deduplicated across chunks by normalized name at construction time; the
+  embedding-similarity dedup pass in `postprocessing/dedup.py` then catches near-duplicate
+  *different* names (e.g. "5 Mm Hex Key" vs "5 Mm Hexagon Key", as in the paper's Fig. 4).
+- The graph store adds `MENTIONED_IN` edges from entities to the chunks they were extracted
+  from (in addition to the paper's `RELATION` edges between entities and `refers_to` edges from
+  images to chunks), so graph retrieval can traverse from a query to relevant entities to their
+  source passages, and so image retrieval can walk from either retrieved chunks or retrieved
+  entities to linked figures.
+- The LLM and embedding clients are swappable via `.env` (`OPENAI_MODEL`, `EMBEDDING_MODEL`);
+  swap `metalmind/llm/client.py` for a different provider's SDK if needed.
