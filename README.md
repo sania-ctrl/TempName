@@ -15,14 +15,20 @@ This repo implements:
   embedding-similarity duplicate detection, producing a review queue for the paper's
   collaborative accept/reject step (`scripts/apply_dedup.py` applies the decisions).
 - **Multi-faceted RAG** (`metalmind/retrieval`, `metalmind/rag`): vector-based, graph-traversal, and
-  hybrid retrieval modes over a Neo4j-backed KG, plus text→image retrieval.
+  hybrid retrieval modes over a Neo4j-backed KG, plus text→image and text→video retrieval.
+- **Video ingestion** (`metalmind/preprocessing/video_ingestion.py`): a text-only stand-in for the
+  paper's video-based action-recognition model. Frame-samples a source video, asks GPT-4o to
+  describe the operation shown, then feeds that description through the normal chunking +
+  entity/relation extraction pipeline like any other document — see "Adding the supplementary
+  videos" below.
 - **Evaluation harness** (`metalmind/evaluation`): faithfulness, answer relevancy, context
   precision/recall (RAGAS-style, LLM-judged), domain rubric scoring, and the paper's 70/30
   accuracy-vs-token-efficiency composite score.
 
 **Not implemented** (out of scope for a code repo — needs dedicated hardware/licensed SDKs):
-the MR headset interface, the Omniverse-based synthetic-data action-recognition model, and the
-web UI for collaborative node review (its underlying dedup logic is implemented and scriptable).
+the MR headset interface, the Omniverse-trained action-recognition model itself (we substitute a
+frame-sampling + vision-LLM description, not a trained recognizer), and the web UI for
+collaborative node review (its underlying dedup logic is implemented and scriptable).
 
 ## Setup
 
@@ -49,6 +55,18 @@ This runs Algorithm 1 end-to-end, prunes standalone nodes, writes candidate dupl
 
 To also load images, pass `--images manifest.json` where the manifest maps
 `{"image_id": {"url": ..., "caption": ..., "source_chunk_id": ...}}`.
+
+**Adding the supplementary videos** (S1 "cleaning the build plate", S2 "replacing the filter"):
+requires the `ffmpeg`/`ffprobe` binaries on PATH (`brew install ffmpeg` / `apt install ffmpeg` /
+Windows: download from ffmpeg.org and add to PATH — not a pip package). Download the `.mov`
+files from the paper's supplementary information page, then pass `--videos manifest.json` where
+the manifest maps `{"video_id": {"path": "/local/path/to/s1.mov", "label": "Cleaning the build
+plate"}}`. Each video is frame-sampled, described by GPT-4o vision, and that description is
+chunked and extracted exactly like a Markdown document — so entities like "Cleaning Cloth" or
+operations shown in the demo become real KG nodes, not just an attached caption. A `Video`
+node is also added (mirroring `Figure`) so you can trace which entities/passages came from
+which video. `scripts/ask.py --videos` surfaces linked videos alongside an answer, the same way
+`--images` does.
 
 **2. Review and apply duplicate merges** (the paper's collaborative verification step):
 
@@ -94,7 +112,7 @@ tiktoken's encoding so no network access or GPU is required to validate the pipe
   from (in addition to the paper's `RELATION` edges between entities and `refers_to` edges from
   images to chunks), so graph retrieval can traverse from a query to relevant entities to their
   source passages, and so image retrieval can walk from either retrieved chunks or retrieved
-  entities to linked figures.
+  entities to linked figures. `Video` nodes follow the same `refers_to` pattern as `Figure`.
 - The LLM and embedding clients are swappable via `.env` (`OPENAI_MODEL`, `EMBEDDING_MODEL`);
   swap `metalmind/llm/client.py` for a different provider's SDK if needed.
 - `kg_construction/prompts.py` encodes the paper's actual published extraction rules (from its

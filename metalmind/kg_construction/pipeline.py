@@ -4,7 +4,7 @@ from typing import Optional
 from tqdm import tqdm
 
 from .. import embeddings
-from ..models import ImageAsset, TextChunk
+from ..models import ImageAsset, TextChunk, VideoAsset
 from . import extraction, schema
 
 
@@ -31,6 +31,7 @@ class KnowledgeGraph:
     relations: list = field(default_factory=list)
     chunks: dict = field(default_factory=dict)  # chunk_id -> TextChunk
     images: dict = field(default_factory=dict)  # image_id -> ImageAsset
+    videos: dict = field(default_factory=dict)  # video_id -> VideoAsset
 
     @staticmethod
     def _key(name: str) -> str:
@@ -51,10 +52,17 @@ class KnowledgeGraph:
 
 
 def build_knowledge_graph(
-    chunks: list, llm, images: list = None, n_schema_clusters: int = 8
+    chunks: list, llm, images: list = None, videos: list = None, n_schema_clusters: int = 8
 ) -> KnowledgeGraph:
     """Algorithm 1: LLM-powered KG construction pipeline (post-processing handled separately
-    in `metalmind.postprocessing`)."""
+    in `metalmind.postprocessing`).
+
+    `videos` registers VideoAsset provenance nodes (Video -> refers_to -> Document, mirroring
+    Figure). The text chunks generated from each video's description (see
+    `metalmind.preprocessing.video_ingestion.describe_video`) must already be included in
+    `chunks` by the caller, so they go through the same Phase 1/2 extraction as any other
+    source text rather than being handled specially here.
+    """
     kg = KnowledgeGraph()
 
     chunk_vectors = embeddings.embed_texts([c.text for c in chunks])
@@ -93,5 +101,11 @@ def build_knowledge_graph(
         if img.caption:
             img.embedding = embeddings.embed_texts([img.caption])[0].tolist()
         kg.images[img.image_id] = img
+
+    # --- Video nodes (provenance only; their description text was already extracted above) ---
+    for video in videos or []:
+        if video.description:
+            video.embedding = embeddings.embed_texts([video.description])[0].tolist()
+        kg.videos[video.video_id] = video
 
     return kg

@@ -12,11 +12,12 @@ from metalmind.config import settings
 from metalmind.graph_store.neo4j_client import Neo4jClient
 from metalmind.kg_construction.pipeline import build_knowledge_graph
 from metalmind.llm.client import LLMClient
-from metalmind.models import ImageAsset
+from metalmind.models import ImageAsset, VideoAsset
 from metalmind.postprocessing.cleanup import prune_standalone_entities
 from metalmind.postprocessing.dedup import find_candidate_duplicates
 from metalmind.preprocessing.chunking import chunk_markdown
 from metalmind.preprocessing.document_loader import load_markdown_docs
+from metalmind.preprocessing.video_ingestion import describe_video
 
 
 def main():
@@ -25,13 +26,22 @@ def main():
     parser.add_argument(
         "--images", help='JSON manifest: {"image_id": {"url": str, "caption": str, "source_chunk_id": str}}'
     )
+    parser.add_argument(
+        "--videos",
+        help='JSON manifest: {"video_id": {"path": str, "label": str}}. Each video (e.g. the '
+        'paper\'s S1/S2 supplementary demos) is frame-sampled and described by the LLM (see '
+        "metalmind.preprocessing.video_ingestion); that description is chunked and extracted "
+        "like any other source text, plus a Video provenance node is added. Requires ffmpeg.",
+    )
     parser.add_argument("--wipe", action="store_true", help="Wipe Neo4j before loading")
     parser.add_argument("--dedup-report", default="dedup_candidates.json")
     args = parser.parse_args()
 
     docs = load_markdown_docs(Path(args.docs))
-    if not docs:
+    if not docs and not args.videos:
         raise SystemExit(f"No .md files found in {args.docs}")
+
+    llm = LLMClient()
 
     chunks = []
     for doc_id, text in docs.items():
@@ -51,9 +61,31 @@ def main():
                 )
             )
 
-    llm = LLMClient()
-    kg = build_knowledge_graph(chunks, llm, images=images)
-    print(f"Extracted {len(kg.entities)} entities, {len(kg.relations)} relations, {len(kg.images)} image nodes")
+    videos = []
+    if args.videos:
+        manifest = json.loads(Path(args.videos).read_text())
+        for video_id, meta in manifest.items():
+            print(f"Describing video: {video_id}")
+            description = describe_video(llm, meta["path"], label=meta.get("label", video_id))
+            video_chunks = chunk_markdown(
+                video_id, description, settings.chunk_size_tokens, settings.chunk_overlap_tokens
+            )
+            chunks.extend(video_chunks)
+            videos.append(
+                VideoAsset(
+                    video_id=video_id,
+                    path=meta["path"],
+                    description=description,
+                    source_chunk_id=video_chunks[0].chunk_id,
+                )
+            )
+        print(f"Described {len(videos)} videos")
+
+    kg = build_knowledge_graph(chunks, llm, images=images, videos=videos)
+    print(
+        f"Extracted {len(kg.entities)} entities, {len(kg.relations)} relations, "
+        f"{len(kg.images)} image nodes, {len(kg.videos)} video nodes"
+    )
     print(f"LLM tokens used: {llm.total_tokens}")
 
     removed = prune_standalone_entities(kg)

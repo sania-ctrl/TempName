@@ -27,3 +27,13 @@ def images_by_answer_similarity(client, summary_text: str, threshold: float = No
             scored.append((similarity, url, caption))
     scored.sort(key=lambda x: -x[0])
     return [(url, caption) for _, url, caption in scored]
+
+
+def videos_for_retrieval(client, retrieval_result) -> list:
+    """Video analogue of `images_for_retrieval`: videos directly linked to the entities/chunks
+    that were retrieved as context (e.g. surfacing the S1/S2 supplementary demos when their
+    generated description matched the query)."""
+    hits = set()
+    hits.update(client.videos_for_chunks(retrieval_result.chunk_ids))
+    hits.update(client.videos_for_entities(retrieval_result.entity_names))
+    return list(hits)

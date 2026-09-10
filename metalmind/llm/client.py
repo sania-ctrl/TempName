@@ -46,6 +46,24 @@ class LLMClient:
         tokens = self._track_usage(response)
         return response.choices[0].message.content, tokens
 
+    def complete_vision(self, system: str, user_text: str, image_data_urls: list) -> tuple:
+        """Like `complete_text`, but attaches one or more images (as data: URLs) to the user
+        turn. Used for describing video frames -- requires a vision-capable model (GPT-4o
+        qualifies; set OPENAI_MODEL accordingly if you swap models)."""
+        content = [{"type": "text", "text": user_text}]
+        content.extend({"type": "image_url", "image_url": {"url": url}} for url in image_data_urls)
+
+        response = self._client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": content},
+            ],
+            temperature=0,
+        )
+        tokens = self._track_usage(response)
+        return response.choices[0].message.content, tokens
+
     def _track_usage(self, response) -> int:
         usage = getattr(response, "usage", None)
         tokens = usage.total_tokens if usage else 0

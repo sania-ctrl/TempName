@@ -1,18 +1,23 @@
 from metalmind import embeddings
 from metalmind.retrieval.graph_retrieval import graph_search
 from metalmind.retrieval.hybrid_retrieval import hybrid_search
-from metalmind.retrieval.image_retrieval import images_by_answer_similarity, images_for_retrieval
+from metalmind.retrieval.image_retrieval import (
+    images_by_answer_similarity,
+    images_for_retrieval,
+    videos_for_retrieval,
+)
 from metalmind.retrieval.vector_retrieval import vector_search
 
 
 class FakeClient:
     """Duck-typed stand-in for Neo4jClient exposing only the read methods retrieval uses."""
 
-    def __init__(self, chunks=None, entities=None, edges=None, images=None):
+    def __init__(self, chunks=None, entities=None, edges=None, images=None, videos=None):
         self.chunks = chunks or []  # (chunk_id, text, embedding)
         self.entities = entities or []  # (name, description, embedding)
         self.edges = edges or {}  # name -> [(neighbor_name, neighbor_description)]
-        self.images = images or []  # (url, caption, embedding)
+        self.images = images or []  # (url, caption, embedding, chunk_id)
+        self.videos = videos or []  # (path, description, embedding, chunk_id)
 
     def all_document_chunks(self):
         return self.chunks
@@ -31,6 +36,12 @@ class FakeClient:
 
     def all_images(self):
         return [(url, caption, emb) for url, caption, emb, _ref in self.images]
+
+    def videos_for_chunks(self, chunk_ids):
+        return [(path, desc) for path, desc, _e, chunk_ids_ref in self.videos if chunk_ids_ref in chunk_ids]
+
+    def videos_for_entities(self, entity_names):
+        return []
 
 
 def _emb(text):
@@ -97,3 +108,15 @@ def test_images_by_answer_similarity_respects_threshold():
 
     no_hits = images_by_answer_similarity(client, "totally unrelated text about the argon supply line", threshold=0.99)
     assert no_hits == []
+
+
+def test_videos_for_retrieval_matches_by_chunk_id():
+    from metalmind.retrieval.base import RetrievalResult
+
+    client = FakeClient(
+        videos=[("/videos/s1.mov", "Operator cleans the build plate.", _emb("cleans build plate"), "c0")]
+    )
+    result = RetrievalResult(context=["..."], chunk_ids=["c0"], entity_names=[])
+
+    hits = videos_for_retrieval(client, result)
+    assert hits == [("/videos/s1.mov", "Operator cleans the build plate.")]

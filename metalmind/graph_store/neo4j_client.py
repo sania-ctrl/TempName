@@ -86,6 +86,20 @@ class Neo4jClient:
                     chunk_id=image.source_chunk_id,
                 )
 
+            for video_id, video in kg.videos.items():
+                session.run(
+                    "MERGE (v:Video {video_id: $video_id}) "
+                    "SET v.path = $path, v.description = $description, v.embedding = $embedding "
+                    "WITH v "
+                    "MATCH (c:Document {chunk_id: $chunk_id}) "
+                    "MERGE (v)-[:refers_to]->(c)",
+                    video_id=video_id,
+                    path=video.path,
+                    description=video.description,
+                    embedding=video.embedding,
+                    chunk_id=video.source_chunk_id,
+                )
+
     def all_document_chunks(self):
         with self._driver.session() as session:
             result = session.run(
@@ -142,3 +156,26 @@ class Neo4jClient:
                 "RETURN i.url AS url, i.caption AS caption, i.embedding AS embedding"
             )
             return [(r["url"], r["caption"], r["embedding"]) for r in result]
+
+    def videos_for_entities(self, entity_names: list):
+        if not entity_names:
+            return []
+        with self._driver.session() as session:
+            result = session.run(
+                "MATCH (n:Entity)-[:MENTIONED_IN]->(c:Document)<-[:refers_to]-(v:Video) "
+                "WHERE n.name IN $names "
+                "RETURN DISTINCT v.path AS path, v.description AS description",
+                names=entity_names,
+            )
+            return [(r["path"], r["description"]) for r in result]
+
+    def videos_for_chunks(self, chunk_ids: list):
+        if not chunk_ids:
+            return []
+        with self._driver.session() as session:
+            result = session.run(
+                "MATCH (v:Video)-[:refers_to]->(c:Document) WHERE c.chunk_id IN $ids "
+                "RETURN DISTINCT v.path AS path, v.description AS description",
+                ids=chunk_ids,
+            )
+            return [(r["path"], r["description"]) for r in result]
