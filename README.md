@@ -59,16 +59,21 @@ review `dedup_candidates.json`, write your accept/reject decisions as
 python -m scripts.apply_dedup --decisions decisions.json
 ```
 
-**3. Evaluate retrieval modes** against a query/ground-truth dataset (see
-`data/eval_dataset.json` for the schema — a small template standing in for the paper's 100-query,
-70-granular/30-global evaluation set):
+**3. Evaluate retrieval modes** against a query/ground-truth dataset. `data/eval_dataset.json` is
+now the paper's actual 100-question evaluation set (pulled from the authors' repo,
+[FHL1998/MetalMind](https://github.com/FHL1998/MetalMind), and verified against the exact example
+questions quoted in the paper's supplementary information). The authors don't publish a
+granular/global label per question, so only the 4 questions the supplement names by exact text are
+tagged (`"granular"` / `"global"`); the rest are `"unlabeled"`. Re-run
+`python -m scripts.fetch_eval_dataset` any time to refresh it from the source, or hand-label more
+questions yourself if you want the full 70/30 breakdown from Fig. 2:
 
 ```bash
 python -m scripts.evaluate --dataset data/eval_dataset.json
 ```
 
 Prints the per-mode/per-metric table (mirroring Fig. 2) and the composite token-efficiency scores
-(mirroring Table 1).
+(mirroring Table 1), grouped by whatever `type` values are present in the dataset.
 
 ## Tests
 
@@ -92,3 +97,10 @@ tiktoken's encoding so no network access or GPU is required to validate the pipe
   entities to linked figures.
 - The LLM and embedding clients are swappable via `.env` (`OPENAI_MODEL`, `EMBEDDING_MODEL`);
   swap `metalmind/llm/client.py` for a different provider's SDK if needed.
+- `kg_construction/prompts.py` encodes the paper's actual published extraction rules (from its
+  supplementary "Knowledge Graph Construction Guidelines for GPT-4o"): generic `Component`
+  labels rather than specific ones (e.g. never "Valve"), `>` syntax for control-panel actions,
+  numbered lists as operation steps, human-readable node names, and co-reference resolution to
+  the most complete entity form. The category *set* itself is still derived dynamically per
+  corpus via clustering (Algorithm 1), matching the paper's method rather than hardcoding its
+  two dominant categories (Component, Operation).

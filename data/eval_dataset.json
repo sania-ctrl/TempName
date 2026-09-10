@@ -1,32 +1,502 @@
 [
   {
-    "query": "What alcohol concentration is required for wiper cleaning?",
-    "ground_truth": "Wiper cleaning requires a 99% alcohol concentration to fully remove residual metal particles from the wiper surface; lower concentrations risk leaving residue that can contaminate later builds.",
+    "query": "What are the high-level requirements for operating the Renishaw AM250 or AM400 system properly?",
+    "ground_truth": "The system must only be operated by staff who have completed a Renishaw approved training course. Operators must follow the instructions and advice in the manual strictly. They must adhere to tightly controlled safety and handling protocols for raw materials. The system requires proper maintenance, and operators must be formally trained and assessed in individual tasks. Additionally, supervisors are responsible for ensuring safe operation and maintenance of the equipment.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is included in the standard equipment package for the AM250 or AM400 system?",
+    "ground_truth": "The standard equipment package includes: 1) The Renishaw AM250 or AM400 additive manufacturing system 2) Chiller (two sizes available) 3) Dehumidifier (AM400 only) 4) Chiller fitting kit 5) User guide and Site preparation guide 6) Operator training documentation 7) Starter kit 8) Commissioning kit 9) Powder bottle kit with three small powder bottles with valves (A1) and one large overflow bottle with valve (B1) 10) Additional safe change filter assembly 11) File preparation software",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the warranty conditions and exclusions for the Renishaw AM250 or AM400 system?",
+    "ground_truth": "The warranty is subject to Renishaw's CONDITIONS OF SALE for equipment purchased directly from Renishaw. Main exclusions from the warranty apply if the equipment has been: 1) neglected, mishandled or inappropriately used, or 2) modified or altered without Renishaw's prior written agreement. For equipment purchased from other suppliers, customers should contact their supplier for warranty coverage. Additionally, warranty claims will not be honored where faults arise due to non-OEM replacement parts being fitted.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What compliance certifications and regulations does the AM250 or AM400 system meet?",
+    "ground_truth": "The AM250 or AM400 system meets several compliance standards: 1) EC Declaration of Conformity - complies with Directive 1999/5/EC and applicable standards and regulations 2) FCC compliance (USA) - meets Class A digital device limits under part 15 of FCC Rules 3) WEEE directive compliance for proper electronic waste disposal 4) The system is covered by multiple patents across different jurisdictions including CA, CN, EP, JP, and US patent numbers. The system must also be properly earthed and meets electrical safety standards.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the laser classification levels for the Renishaw AM250 or AM400 during normal operation versus maintenance?",
+    "ground_truth": "During normal operation with the build chamber door closed, the system is classified as Class 1 (safest level). However, during maintenance with the chamber door open, it becomes a Class 4 laser system (highest hazard level). This is why proper laser eyewear meeting EN 207 (EN 58215) standards must be worn during maintenance when the laser is on and the chamber door is open.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the minimum argon cylinder pressure required before starting a build?",
+    "ground_truth": "The minimum argon cylinder pressure required before starting a build is 25 bar. This is specified in the process checks section of the manual, which states that you must 'Check argon cylinder pressure greater than 25 bar, supply pressure less than 2 bar' before initiating a build. Having sufficient argon is critical to maintain the inert atmosphere needed for safe and successful metal powder processing.",
     "type": "granular"
   },
   {
-    "query": "Where is the upper safe change filter valve located?",
-    "ground_truth": "The upper safe change filter valve, Valve (F1), is located on the KF flange of the safe change filter assembly.",
-    "type": "granular"
+    "query": "What are the main hazards that need to be considered in the risk assessment for the AM250 or AM400?",
+    "ground_truth": "The main hazards requiring assessment include: 1) Laser radiation exposure, 2) Fine metallic powders below 45 \u03bcm diameter, 3) Use, storage and monitoring of inert gas, 4) Nano soot particles in the waste product, 5) Potential airborne metallic powder during handling and processing. Additionally, COSHH or DSEAR assessments (or local equivalents) must be conducted.",
+    "type": "unlabeled"
   },
   {
-    "query": "What does the small powder bottle connect to?",
-    "ground_truth": "The small powder bottle connects to the powder delivery system that feeds the recoater, and is refilled from the main powder hopper.",
-    "type": "granular"
+    "query": "What are the differences in laser warning labels between AM250 and AM400 systems?",
+    "ground_truth": "Key differences include: 1) AM250 systems pre-2016 had Class 2 general classification labels inside the chamber, while post-2016 systems use Class 3R labels, 2) AM400 systems use Class 3R general classification labels inside the chamber by default, 3) The positioning and specific warning labels vary between models, particularly around the optical module and chamber areas, 4) AM400 has additional LED light assembly warnings not present on basic AM250 systems (excluding those with PLUSPAC).",
+    "type": "unlabeled"
   },
   {
-    "query": "How often should the chiller be checked and what does it regulate?",
-    "ground_truth": "The chiller must be checked weekly for coolant level; it regulates the temperature of the laser optics and the build chamber.",
-    "type": "granular"
+    "query": "When working with the laser system, what specific eye protection requirements are mandated?",
+    "ground_truth": "Eye protection requirements specify that: 1) Laser eyewear meeting EN 207 (EN 58215) standards must be worn during any adjustment or maintenance with the laser on and chamber door open, 2) The eyewear must protect against laser beams with wavelengths of 1000 \u03bcm to 1100 \u03bcm, 3) For LED light assemblies (on AM400 and AM250 with PLUSPAC), users must not stare at the assembly as it may harm eyes, 4) During normal operation, the chamber door interlocks provide protection, making additional eye protection unnecessary.",
+    "type": "unlabeled"
   },
   {
-    "query": "Describe the end-to-end relationship between the powder system, the recoater, and the build plate during a print.",
-    "ground_truth": "The small powder bottle feeds powder to the recoater system; the recoater blade spreads a thin, uniform layer of that powder across the build plate before each layer is fused by the laser. The build plate is heated and leveled beforehand, and the blade travels directly across it on every pass, so blade condition, plate leveling, and powder supply are all interdependent for consistent layer quality.",
+    "query": "What are the mandatory personal protective equipment (PPE) requirements when handling metal powder in the Renishaw AM250 or AM400 system?",
+    "ground_truth": "The minimum required PPE includes: 1) Gloves/gauntlets, 2) Eye protection, 3) Full face respirator (conforming to EN143 Type P3+A1), 4) Toe protection safety shoes, 5) ESD dissipative safety shoes (Essential for sieve room ATEX zone), 6) Full length clothing made from non-static generating fabric such as cotton (avoiding wool and synthetic fabrics), without turn-ups or pockets that could trap powder. Additionally, heat resistant gauntlets are required if a furnace is specified. All PPE used in the sieve room must be ATEX rated.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the proper procedures for handling metal powder spills and what methods should NOT be used?",
+    "ground_truth": "Proper procedures for handling spills include: 1) Immediate clean-up by gentle sweeping using a non-synthetic brush into a metal receptacle (anti-static dustpan and brush), 2) Small residual amounts may be removed using an ATEX vacuum cleaner (wet separator) approved for combustible metal dusts, 3) Avoid contact of spilled material with greases, oils, solvents or combustibles. Important prohibitions: DO NOT use compressed air to clean up spills, and keep vacuuming to a minimum quantity - only vacuum what cannot be easily collected by brushing.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the proper fire-fighting procedures for metal powder fires, and what methods should be avoided?",
+    "ground_truth": "The proper fire-fighting procedures are: 1) First call emergency services, 2) Isolate and contain the fire rather than trying to extinguish it, 3) Surround the fire with inert material such as sand, salt or use a type D powder fire extinguisher, 4) Exercise caution when cleaning up burned metal powder due to possible re-ignition. DO NOT use water or pressurized fire extinguishers as this risks forcing metal powder into a dust cloud. Water usage on some burning metals can release explosive hydrogen gas. Always inform emergency services about the exact nature of materials being processed and stored.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the key requirements for maintaining electrical safety during maintenance of the AM250 or AM400 system?",
+    "ground_truth": "Key electrical safety requirements include: 1) Only qualified electrical technicians trained on the Renishaw AM250 or AM400 can work on electrical equipment, 2) Work is only permitted on isolated equipment after completing a safe isolation procedure per IEE standards, 3) The switch cabinet and power supply units must always be kept closed with access restricted to authorized persons with key/special tool, 4) Electrical devices must never be cleaned with water or similar liquids, 5) The electrical enclosure must remain locked during normal operation with the key held by maintenance technician or supervisor, 6) Never work on live equipment as it could result in injury or death by electrocution.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the main criteria for proper storage of metal powders used in the system?",
+    "ground_truth": "Metal powders should be stored following these criteria: 1) Keep in a cool, dry place, 2) Use hermetically sealed non-flammable containers, 3) Store away from ignition sources, 4) Bulk storage must comply with local building and fire codes, 5) Consider using zone-classified storage cabinets, 6) Isolate from fuels, strong oxidizing agents, steam, oils, grease, and water, 7) Maintain controlled inventory and limited access to storage area, 8) Keep storage area doors closed. Always refer to the specific Safety Data Sheet for the particular metal powder being stored.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the main specifications of the AM250 or AM400 build chamber and what environmental conditions must be maintained during operation?",
+    "ground_truth": "The build chamber specifications are: 250mm * 250mm * 300mm (10in * 10in * 12in) with a typical maximum build envelope of 248mm * 248mm * 285mm using standard 15mm substrate. The chamber must maintain: 1) Minimum pressure (vacuum) of 950 mbar-gauge or 5 kPa; 2) Working pressure of 10 to 20 mbar-gauge; 3) Argon gas quality of 20 ppm or better (99.998% pure); 4) Running argon consumption of 10L/hr to 50L/hr; 5) Initial filling/purge consumption of 600L to 1500L.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the laser safety protocols that must be followed during maintenance of the AM250 or AM400 system?",
+    "ground_truth": "For maintenance requiring laser cover removal (Class 4 conditions): 1) Only authorized Renishaw personnel or service personnel can perform laser system maintenance; 2) The installation room must be secured against unauthorized access and laser light leakage; 3) All windows must be covered or use laser screening; 4) Warning signs stating 'CLASS 4 LASER IN OPERATION. NO ADMITTANCE' must be posted on all access doors; 5) Only personnel with laser safety training are allowed in the hazard area wearing complete protection including laser goggles with protection level D L7 for 1000-1100nm wavelengths per EN 207.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the requirements for build plates in the AM250 or AM400 system and how should they be maintained?",
+    "ground_truth": "Build plate requirements include: 1) Indelible marking (engraved/stamped) on the edge to indicate material composition; 2) Must maintain 50\u03bcm tolerance for flatness and parallelism over thickness after cleaning; 3) Surface finish up to 1.6\u03bcm Ra (ground finish); 4) Underside must not be convex to prevent poor powder distribution and adhesion issues; 5) All cutting fluid residue must be removed using ethanol or isopropanol; 6) Correct thickness measurement must be input before fixing to build table; 7) Thicker plates may be required for large, dense parts.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the inert gas safety requirements and monitoring protocols for the AM250 or AM400 system?",
+    "ground_truth": "Inert gas safety requirements include: 1) Continuous monitoring of inert gas concentration in ambient air; 2) Visible and audible warning system for low oxygen concentration (<19.5%); 3) Well-ventilated room according to installation manual and local regulations; 4) Ground level oxygen monitoring when using argon; 5) While argon is recommended, nitrogen gas can be used but at the end user's risk as the system is only qualified with argon; 6) Small amounts of inert gas emission from sieving station must be considered; 7) Argon vent port can be connected outside the building.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "How does the gas circuit and oxygen monitoring system work in the AM400?",
+    "ground_truth": "The gas enters the build chamber from three points (top left, top right, and lower right). The system creates a gas flow across the substrate plate, collecting fine metal powder and soot particles through a port connected to a safe change filter. Oxygen levels are continuously monitored at two points in the system. The default setting is 1000 ppm (0.1%) before build commencement, with an upper safe threshold of 5000 ppm (0.5%). If oxygen levels exceed the maximum value, the system adds inert gas and pauses briefly until required levels are achieved.",
     "type": "global"
   },
   {
-    "query": "What maintenance steps and equipment interact with the safe change filter assembly, and why do they matter for machine reliability?",
-    "ground_truth": "The chiller connects to the machine via the safe change filter assembly and must be checked weekly for coolant level. The assembly's upper isolating valve (F1), on its KF flange, is opened during maintenance to fill the filter housing with water before the filter cartridge is replaced -- linking chiller upkeep and filter servicing as parts of the same maintenance subsystem.",
+    "query": "What are the key steps and precautions for loading powder into the system?",
+    "ground_truth": "Metal powder must first be decanted into small powder bottles using appropriate safety gear (mask, gloves, eye protection) - never loaded directly from supplier containers. For reactive materials like titanium and aluminum, decanting should be done in an inert atmosphere (argon glove box). The powder is loaded into the silo using a small powder bottle with two isolation valves (A1 for bottle, V1 for silo). Powder cannot be loaded during the vacuum cycle when preparing the build atmosphere.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What emergency controls are in place and how do they affect system operation?",
+    "ground_truth": "The system includes an Emergency Stop button located below the touch screen. When pressed, it stops the manufacturing process, disables laser and mechanical components while maintaining the argon atmosphere. The main computer and controller remain available but with limited functionality until alarm messages are cleared. To restart, the Emergency Stop must be unlatched by rotating clockwise, and the blue RESET button must be pressed. The z-axis home position needs to be re-taught after an Emergency Stop activation.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the main components for temperature control and build plate preparation?",
+    "ground_truth": "The system includes heaters built into the table that can heat the substrate plate up to 170\u00b0C (338\u00b0F), controlled via the HMI touch screen. The build plate is bolted to the table surface using M5 cap screws and requires material-specific substrate compatibility. A chiller maintains stable temperature for the laser and optical system, requiring regular maintenance and anti-fungal inhibitor use. For AM400 specifically, a dehumidifier supplies clean, dry, temperature-controlled air to cool parts of the optical system.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the key safety requirements and checks for the ATEX vacuum cleaner (wet separator) when handling metal powders?",
+    "ground_truth": "The key safety requirements include: 1) Ensuring electrical earthing with resistance <10^6 Ohms between plug and components, <1 MOhm for conductive components, and <10^8 Ohms for dissipative parts 2) Checking fluid level and using correct additives before every startup 3) Verifying hydrogen ventilation valve functionality by ensuring it springs back open 4) Emptying and cleaning after every shift 5) Using 5% solution of Hydra-Sol-MAG additive for oxygen reactive metals 6) Adding 0.1% anti-foaming agent for aluminum alloys 7) Storing in well-ventilated areas 8) Using only conductive/electrostatic-dissipative components",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the critical maintenance requirements and parameters for the chiller system in the AM250 or AM400?",
+    "ground_truth": "The critical maintenance requirements include: 1) Weekly checks of fluid level (must not drop below L mark on sight glass) 2) Using either Glycol (25% concentration with purified filtered water + corrosion inhibitor) or Nalco fluid (pre-mixed) 3) Regular cleaning of chiller filter using ATEX vacuum cleaner 4) Biweekly temperature parameter checks 5) Not mixing different chiller fluids 6) Regular inspection of chiller cover and magnetic strips 7) Maintaining fluid level between H (maximum) and L (minimum) marks",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the proper procedure for operating the powder recovery system (sieve) and what are its safety considerations?",
+    "ground_truth": "The proper procedure includes: 1) Connecting argon supply regulated to 0.1 bar for oxygen reactive metals 2) Purging air for 30 seconds before operation 3) Running sieve for minimum 10 minutes per batch 4) Using proper PPE including eye protection, full face respirator (EN143 Type P3+A1), protective gloves, and full-length non-static generating clothing 5) Color coding sieve and powder bottles for multiple materials 6) Checking completion by tapping neck of lower powder bottle 7) Proper valve operation sequence for loading/unloading 8) Regular maintenance including cleaning all components with IPA and proper reassembly",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the maintenance requirements and safety considerations for the Renishaw silo lift?",
+    "ground_truth": "The maintenance requirements include: 1) Regular inspection schedule: wheels every 3 months, fork arms annually, wire rope every 6 months, mast/carriage rollers every 3 months, hydraulic circuit every 3 months 2) Maximum load capacity of 200 kg at 200 mm 3) Safety considerations include: checking all functions before use, ensuring even load distribution, not leaving unattended on gradients, applying wheel brakes when lifting/lowering 4) Hydraulic fluid maintenance using ISO grade 11158 grade 32 5) Regular inspection of lifting wire rope for fraying or damage 6) Proper documentation in maintenance log",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the valve positions required for the safe change filter during a build?",
+    "ground_truth": "For the safe change filter or large safe change filter during a build, four valves must be open: V4, V5, F1 and F2. These valves should remain open throughout the build process. The system will prompt you to confirm these valves are open before starting the build. After the build completes, you'll be prompted to close these valves by turning the levers so they are at 90\u00b0 to the direction of flow. The filter valves must remain closed until the filter is ready to be wet inerted, and the filter must be replaced after every build.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the essential pre-startup checks and safety measures required for the AM400 system before powering on?",
+    "ground_truth": "The essential pre-startup checks include: 1) Ensuring the system door is closed 2) Confirming the chiller is switched on and set to 20\u00b0C (68\u00b0F) 3) Verifying the dehumidifier is powered on (AM400 only) 4) Checking that compressed air supply is connected for dehumidifier and laser optics 5) Following proper safety protocols including wearing appropriate PPE when opening the process chamber (eye protection full face respirator protective gloves and cotton/fire retardant overalls).",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the recommended maintenance schedule and key components that require regular inspection in the AM400 system?",
+    "ground_truth": "The maintenance schedule includes: 1) Wheels - Check every 3 months for damage/wear 2) Fork arms - Annual inspection by trained engineers 3) Wire rope - 6-monthly inspection for fraying/damage 4) Mast/carriage rollers - 3-monthly checks for damage/wear (uses Lithium complex grease 873) 5) Hydraulic circuit - 3-monthly fluid level checks using ISO grade 11158 grade 32 fluid 6) Regular dehumidifier functionality checks for temperature-controlled air supply.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the proper procedures for argon gas cylinder installation and what are the critical pressure parameters to maintain?",
+    "ground_truth": "The proper procedures include: 1) Secure cylinder properly in designated location 2) Attach regulator using 1-1/8 inch spanner (no oil/grease/sealant) 3) Maintain supply pressure between 1.5-1.8 bar (22-26 psi) 4) Never exceed 2 bar (29 psi) line pressure 5) Minimum cylinder pressure should be 25 bar (363 psi) at build start 6) Test installation by pressurizing to 1.8 bar and checking for leaks over 10 minutes.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the correct power-down sequence for the AM400 system and why is it important?",
+    "ground_truth": "The correct power-down sequence is: 1) Select Service > PC On/Off Override > Shutdown PC from main menu 2) Wait for green LED light on PC to expire 3) Turn main isolator to 0/OFF position 4) Switch off chiller only after system is powered down. This sequence is crucial to avoid damage to the control PC and maintain system integrity. WARNING: Never switch off using the isolator before following this procedure, and never switch off the chiller while the system is still on.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the different access levels available in the AM400 system and what are the procedures for logging in and out?",
+    "ground_truth": "The system has four access levels: 1) Level 1 (AMPD1) - End user operator level 2) Level 2 (AMPD2) - End user technician level 3) Level 3 - Maintenance engineer level 4) Level 4 - Software engineer and configuration engineer. Login procedure: Select Login In/Out > Press Here to Login > Enter alphanumeric pass-code. Logout procedure: Select Esc. > Login In/Out > Log Out. Note: Previous user must be logged out before new login unless 15-minute timeout has elapsed.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the correct procedure for transferring powder from supplier containers to Renishaw powder bottles?",
+    "ground_truth": "1) Remove silica desiccant bag from supplier's container (for titanium powder) 2) Screw suitable powder bottle adaptor to supplier's powder bottle with isolating valve (AV1) closed 3) Fit centering ring to isolating valve KF flange adaptor 4) Connect small powder bottle with closed isolating valve (A1) using quick-release clamp 5) Rotate both bottles and open isolation valves 6) Monitor filling by tapping bottle (hollow sound when empty) 7) When full, close valve A1, invert bottles to allow remaining powder to return to supplier bottle 8) Close valve AV1 9) Remove quick-release clamp and separate bottles",
+    "type": "unlabeled"
+  },
+  {
+    "query": "How should the powder silo be loaded safely in the AM400 system?",
+    "ground_truth": "1) Ensure minimum three full bottles of powder in system before starting 2) Use safe working height platform to access silo 3) Place clean centring ring seal on silo isolating valve (V1) 4) Ensure both bottle valve (A1) and silo valve (V1) are closed 5) Connect powder bottle using quick-release clamp 6) Open bottle valve (A1) first, then silo valve (V1) 7) Wait for complete transfer (verify by tapping) 8) Close bottle valve first, then silo valve 9) Remove clamp and bottle. Note: Do not fill above overflow pipes or during vacuum cycle, and never load contaminated powder",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the correct procedure for installing the overflow bottles in the AM400 system?",
+    "ground_truth": "1) Install bottles inside left hand access panel below safe change filter 2) Each bottle requires two valves - system valves (V2/V3) and bottle valves (A1/B1) 3) For rear overflow: Position bottle, add centring ring, connect using quick-release clamp (L10), open both valves 4) For front overflow: Position large bottle, add centring ring, connect using quick-release clamp (L13), open both valves (B1 and V3) 5) Consider purging/filling overflow bottles with argon gas if replacing during operation",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the key safety warnings and restrictions when handling powder in the AM400 system?",
+    "ground_truth": "1) Never load powder directly from supplier containers into AM250 or AM400 - must use Renishaw powder bottles 2) Always remove silica desiccant bag from titanium powder containers 3) Don't fill silo above overflow pipe level 4) No filling during vacuum cycle/build atmosphere preparation 5) Always sieve powder using Renishaw Powder Recovery System before loading 6) Never use contaminated powder 7) Keep powder bottle open time minimal to avoid spillage 8) Used metal powder must be sieved to remove part-sintered material before system refilling",
+    "type": "unlabeled"
+  },
+  {
+    "query": "Why must the filter element be submerged in water before disassembly, and what precaution must be taken with the top valve (F1)?",
+    "ground_truth": "The filter element must be submerged because it contains sub-micron particles which can ignite in the presence of oxygen due to their increased surface area. The top valve (F1) must be left open when wet because the filter contents react with water to liberate hydrogen gas, which must be permitted to escape. This applies to all materials being processed.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the four main valves involved in the filter system and what is their purpose?",
+    "ground_truth": "The system has four isolation valves: 1) V4 (system outlet), 2) V5 (system recirculation), 3) F1 (upper filter isolation), and 4) F2 (lower filter isolation). These valves are used to seal off sections during filter changes. The valves should only be closed when the system is paused or after build completion, never during operation.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the recommended maintenance procedure for storing and drying the filter housing after cleaning?",
+    "ground_truth": "After cleaning, the filter housing should be thoroughly cleaned with isopropanol alcohol and disposable cloth, then allowed to dry for approximately 24 hours in a dry environment, or in a low temperature oven at maximum 50\u00b0C (122\u00b0F) until completely dry. For the large safe change filter, the recommended drying time is 4 hours following a dry wipe.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What solution is used in the disposal drum for used filters and at what concentration?",
+    "ground_truth": "The disposal drum should be filled with water and a 5% solution of Hydra-Sol-MAG additive (Part number P-LU08-0004). Used filters must be fully submerged in this solution and the drum must remain ventilated.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the approximate weight of the large safe change filter assembly when dry versus when filled with water?",
+    "ground_truth": "The large safe change filter assembly weighs approximately 15 kg when dry and increases to approximately 30 kg when filled with water. Due to this weight increase and awkward shape, Renishaw recommends using their silo changeover lift (part number A-5771-1000) with a large safe change filter support bracket for handling.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the torque specification for reassembling the large safe change filter, and what bolt pattern should be followed?",
+    "ground_truth": "The six M5 bolts securing the top cover to the filter chamber should be torque tightened to 20 Nm in a diagonal sequence, using a 5 mm hex key and a suitable torque wrench. For the regular safe change filter, the four M8 bolts should be tightened to approximately 15 Nm following a specific diagonal sequence shown in Figure 178.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the key requirements and precautions when securing the build plate to the z-axis table?",
+    "ground_truth": "The build plate must be secured using M5 cap screws with a torque of 3-5 Nm (2.2-3.7 lbf/ft). Zinc passivated screws must NOT be used due to risk of zinc fumes and screws becoming brittle when heated. The plate should be cleaned with isopropanol (ensuring complete drying) before installation. The plate thickness variation should not exceed 0.05 mm between highest and lowest measurements.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the correct procedure for installing and adjusting the wiper blade height?",
+    "ground_truth": "1. Cut silicone wiper blade to 259 mm \u00b1 1 mm length. 2. Loosen five M4 bolts in wiper housing (don't remove completely). 3. Insert blade ensuring it doesn't pass radius marks. 4. Tighten bolts to max 2 Nm from center outward. 5. Position wiper at center. 6. Set 0.05 mm (0.002 in) gap between wiper and substrate using feeler gauge measured in at least three places. 7. Tighten pinch bolts to secure height setting.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the specifications and handling considerations for different build substrate materials?",
+    "ground_truth": "Three main substrate materials are mentioned with different weights: Stainless Steel (7.5 kg), Titanium (4 kg), and Aluminum (3 kg). The substrates must be handled carefully to avoid injury and damage. Each material requires a compatible substrate material and should be indelibly marked on the edge to indicate composition. The substrate must be clean and completely dry before installation.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the correct procedure for dosing powder after wiper installation?",
+    "ground_truth": "After setting up the wiper blade (0.05 mm above substrate), close chamber door and reset alarm. Set dosing level to 3 in control window. Execute sequence: Dose > Go to FWD POS. The first powder layer should be even across the substrate with substrate still visible but all four bolt holes completely filled with powder. If layer is uneven, setup steps should be repeated.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the key maintenance considerations for the wiper blade system?",
+    "ground_truth": "The silicone wiper blade (Part number: M-5774-0886) can be reused several times by rotating the silicone rubber. However, it should be replaced if damaged or after every build. The wiper housing consists of two aluminum pieces secured with M4 cap screws. When installing new blade, ensure even pressure across blade to prevent deformation by laying on flat surface and applying slight pressure.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the critical system preparation steps before installing the build substrate?",
+    "ground_truth": "1. Ensure wiper is in home position at back of system. 2. Close system door and press blue reset button. 3. Select Find Wiper Home (button should turn red and Y position stabilize). 4. Measure substrate thickness at each corner and input average into system. 5. Ensure proper substrate material compatibility with powder being processed. 6. Clean substrate with isopropanol and ensure complete drying.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "How long is the heat soak process and why is it necessary?",
+    "ground_truth": "The heat soak process lasts for 40 minutes. It is necessary to allow an even temperature distribution throughout the build chamber. If the process is aborted, users must allow 30 minutes for the system temperature to stabilize before driving the z-axis.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What happens if the chamber temperature goes above 70\u00b0C (158\u00b0F)?",
+    "ground_truth": "When the chamber temperature exceeds 70\u00b0C (158\u00b0F), the door remains interlocked and does not allow the main process chamber door to be opened. However, it's important to note that the chamber can still be accessed via the glove box while the heater is on, requiring careful temperature checking via the HMI touch screen before opening.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the steps for performing automatic heater tuning?",
+    "ground_truth": "1. Install build plate and ensure no powder in chamber 2. Set oxygen threshold to 1000 ppm and start Semi Automatic Chamber Preparation with vacuum 3. Select Heater and adjust Set Temperature to 100\u00b0C 4. Set Period to 1 second 5. Press On followed by Autotune Start 6. Monitor progress via Trending button 7. Wait 40 minutes for temperature to settle 8. May need to repeat process 2-3 times if heater demand oscillates 9. Test by setting temperature to 170\u00b0C and verifying stable operation.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the recommended settings for setting up the FTP file transfer service?",
+    "ground_truth": "File protocol: FTP (File Transfer Protocol), Host name: IP address from AM system service menu, User Name: AM-User, Password: ampdam250 (case sensitive). Renishaw specifically recommends using WinSCP as the FTP transfer service, which is available as freeware.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "How many build files can be stored on the AM250 or AM400 system?",
+    "ground_truth": "Up to ten build files can be stored on the AM250 or AM400 system at any given time.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What should be done regarding Windows updates to maintain proper FTP functionality?",
+    "ground_truth": "1. Deselect 'Use passive FTP' in Internet Options under Advanced settings 2. Change Windows Update settings to 'Let me choose whether to download and install updates' to prevent automatic updates 3. If manual updates are made, FTP settings may need to be reset afterward 4. Automatic updating of Windows should be switched off to prevent communication failures during build transfers.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the essential pre-build checks that must be completed before starting the build process?",
+    "ground_truth": "The essential pre-build checks include: checking powder level via HMI, pressure of gas in argon bottle, regulated argon pressure, condition of chiller fluid levels, system cleaning, chamber pressure reading zero, powder transfer, substrate installation, wiper assembly/installation, heat soak procedure, installation of overflow bottles and safe change filter assembly, argon cylinder pressure >25 bar with supply pressure <2 bar, and correct valve positions verification (V4, V5, F1, F2, A1, B1, V2, V3 open; V1 closed).",
+    "type": "unlabeled"
+  },
+  {
+    "query": "How long does it take to stabilize the atmosphere, and what happens during this process?",
+    "ground_truth": "The atmosphere stabilization takes between 10-15 minutes. During this process, the system creates an inert atmosphere and waits two minutes for stabilization once the preset oxygen threshold is achieved. If the threshold rises above the preset limit, the system doses additional inert gas and waits another two minutes.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What factors determine how frequently the operator needs to add new material and remove unused material during a build?",
+    "ground_truth": "Two main factors determine the frequency: 1) The cross-sectional area of the part being built, and 2) The amount of powder that is over-dosed during the build process.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "How is the dosing percentage typically set, and what factors influence it?",
+    "ground_truth": "For 25 \u03bcm layers, dosing is typically set around 40%. The exact percentage depends on: the material being used, part density on build plate, part placement, and layer thickness. The operator should aim to have powder in front of the wiper for the whole sweep with a small amount wiped down the overflow. Experience with builds helps in selecting the correct dose percentage.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the proper procedure for restarting a build from a specific layer number?",
+    "ground_truth": "The procedure involves: 1) Checking the last layer number in run counters menu, 2) Selecting Wiper/Elevator Control, 3) Entering the required start layer, 4) Resetting the datum by pressing Set Datum, 5) Pressing Play in Auto mode, 6) Confirming the Start at Layer Number, and 7) Opening safe change filter valves (F1, F2, V4, V5) to proceed as a normal build.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the correct procedure for non-emergency shutdown versus emergency shutdown?",
+    "ground_truth": "For non-emergency shutdown, select Auto then press Pause. For emergency situations, use the Emergency Stop button, which will instantly halt the complete system. However, Emergency Stop should only be used in actual emergencies as it interferes with software logic and may prevent build restart. It also requires re-teaching the z-axis home position due to the incremental encoder system.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the required steps after a build is complete before opening the door?",
+    "ground_truth": "After build completion: 1) Confirm build completion in the AM control interface, 2) Close the safe change filter valves (V4, V5, F1, F2) by turning levers 90\u00b0 to flow direction, 3) Wait for heater temperature PV (Present Value) to reach room temperature (<40\u00b0C), 4) Follow the filter wetting (inerting) procedure, and 5) Replace the safe change filter/large safe change filter as it must be replaced after every build.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the correct sequence of steps to safely disconnect the overflow bottle from the system?",
+    "ground_truth": "The correct sequence is: 1) Gently tap the overflow bottle to ensure remaining powder flows into the bottle, 2) Close both valves (A1 and V2 for rear overflow or B1 and V3 for front overflow) by pulling levers to unlock and rotating 90\u00b0 to horizontal position, 3) Open the latch on the quick-release clamp (L10 rear and L13 front overflow), 4) Swing one collar of the quick-release clamp off the engaged KF flanges at a time, 5) Disengage the KF flanges of the two valves, 6) Detach the overflow pipe from the overflow bottle, 7) Remove the centring ring seal, clean it, check its condition, and replace if necessary.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the approximate weight of a full large overflow bottle and what precautions should be taken when handling it?",
+    "ground_truth": "Large overflow bottles weigh approximately 40 kg (88 lb) when full of powder. Manual handling procedures and proper equipment must be in place, and two people are required for handling operations like rotation during powder transfer.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the steps for transferring powder from a large overflow bottle to a small powder bottle?",
+    "ground_truth": "1. Place centering ring on large overflow bottle 2. Place empty small bottle with closed valve on top 3. Engage KF flanges 4. Secure with release clamp 5. Open both valves 6. Rotate bottles so large bottle is on top 7. Tap to encourage powder transfer 8. Close small bottle valve when full 9. Rotate back 10. Wait 10 seconds 11. Close large bottle valve 12. Disconnect bottles",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What safety precaution is required when the silo is removed from the AM400 system?",
+    "ground_truth": "When the silo is removed from the AM400 system, the user must be aware that this action opens the Class 1 laser enclosure. The manual specifically states: 'WARNING: REMOVING THE SILO OPENS THE CLASS 1 LASER ENCLOSURE. THE AM250/AM400 SYSTEM MUST BE SHUTDOWN AND ELECTRICALLY ISOLATED BEFORE REMOVING THE SILO.' This safety precaution is critical to prevent potential laser exposure, which could be hazardous. The system must be completely powered down and disconnected from electrical supply before attempting silo removal.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the proper procedure for removing powder from the build volume?",
+    "ground_truth": "1. Ensure proper PPE is worn 2. Vacuum contaminated powder using ATEX vacuum cleaner 3. Raise build platform in 40mm intervals 4. Use chamber gloves to brush powder down front overflow 5. Check overflow bottle capacity regularly 6. Transfer powder when overflow bottle is full 7. Continue until all powder is removed 8. Clean substrate and remaining powder from parts",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the oxygen level requirements when cleaning the build chamber?",
+    "ground_truth": "The chamber must be re-inerted to an oxygen level of less than 7% before beginning system clean-down. This is the safest method of handling powder as it minimizes the risk of ignition.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What cleaning procedures are required for a material changeover?",
+    "ground_truth": "Complete cleaning including: build chamber, lens, lower chamber, wiper drive, silo removal and cleaning, dosing mechanism replacement, system hoses and pipework cleaning/replacement, overflow manifolds cleaning, recirculation pump cleaning, and sieve cleaning or replacement. Additional cleaning of top chamber after component removal is required.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What temperature requirement must be met before opening the glove box?",
+    "ground_truth": "The substrate temperature must be below 40\u00b0C (100\u00b0F) before opening the glove box to ensure safe handling.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What types of cleaning solutions and materials are specified for system cleaning?",
+    "ground_truth": "Class 3 isopropanol for general cleaning, specified optic cleaner (P-OPTA-0101) for lens cleaning, lens cleaning tissues (P-WI02-0002) for optical components, and an ATEX vacuum cleaner (wet separator) for powder removal.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What precautions should be taken when cleaning the laser lens window?",
+    "ground_truth": "Never touch the laser lens window during cleaning, avoid using tools, only handle using the outer rim, minimize exposure time of optics to environment, use specified cleaning materials only, avoid compressed air, and ensure thorough chamber clean-down before removing the window. The window is fragile and has an optical coating that can scratch if handled incorrectly.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the key considerations for heat treatment of AM parts?",
+    "ground_truth": "1. Thick sections may require normalization/annealing due to higher stress. 2. Large cross-sectional area builds need heat treatment due to longer periods between laser passes. 3. Some materials like titanium alloy require immediate heat treatment post-build due to higher internal stress. 4. Heat treatment must be done under vacuum or inert gas to prevent oxidation. 5. For metals susceptible to nitrogen embrittlement (like titanium and INCONEL), argon must be used as the inert gas.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the recommended procedure for wrapping parts before heat treatment?",
+    "ground_truth": "The procedure involves: 1. Using sufficient foil to wrap the part 2. Folding and covering approximately 1/4 of the part 3. Flipping the part and folding remaining foil under 4. Crimping open ends 5. Flipping again and folding edges 6. Placing wrapped part in furnace box 7. Covering with additional furnace foil extending to box edges 8. Fitting lid and placing in furnace.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the weight of an empty silo and what precautions should be taken during its removal?",
+    "ground_truth": "The silo weighs 44.4 kg (97 lb) when empty. Precautions include: 1. Using a suitable lifting method (gantry crane, lifting trolley, or multi-person lift) 2. Preferably using a Renishaw silo changeover lift (part number M-5771-1000) 3. Ensuring the silo is lowered to just above ground level when clear of the system to minimize fall risk 4. The system must be shut down and electrically isolated before removal.",
+    "type": "granular"
+  },
+  {
+    "query": "What is the proper torque specification for various bolts in the system?",
+    "ground_truth": "1. Silo lid M8 bolts: 10-16 Nm (following specific tightening sequence) 2. Dosing mechanism M10 bolts: approximately 16 Nm (11.8 lbf/ft) 3. Silo mounting M8 bolts: 16 Nm.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is Renishaw's recommendation regarding dosing mechanisms for different materials?",
+    "ground_truth": "Renishaw recommends: 1. Keeping separate dosing mechanisms for each different material type 2. Labeling dosing mechanisms to avoid cross-contamination 3. NOT disassembling the dosing mechanism as it's a complex piece of equipment 4. Errors in disassembly/assembly will affect built parts quality.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the procedure for cleaning the silo?",
+    "ground_truth": "1. Wipe down all external components with isopropanol and cloth 2. Remove powder sensor, valve, and o-rings 3. Remove silo isolation valve and o-ring 4. Remove silo lid 5. Clean lid with isopropanol 6. Clean inside of silo and silo nose thoroughly with isopropanol 7. Allow approximately 24 hours for complete drying 8. Clean the back wall of process chamber.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "How do you empty the powder from the silo and dosing mechanism?",
+    "ground_truth": "For the silo: Dose all powder into overflow bottles for storage under inert atmosphere. For the dosing mechanism: 1. Access Service Menu > Empty Powder Silo 2. Set count to 250 3. Run cycle 4. Observe mechanism until empty 5. Stop cycle when complete 6. Pour any remaining powder down the front overflow.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "How many filters are present in AM250 and AM400 systems, and where are they located?",
+    "ground_truth": "The AM250 has 6 filters: 2 on the top panel and 4 on the back. The AM400 has 5 filters: 4 on the right-hand end and 1 on the back in the top right corner above the argon vent. The AM400 filters are larger than those fitted to AM250.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What types of batteries are used in the AM250 or AM400 system and what is their recommended replacement schedule?",
+    "ground_truth": "The system uses several non-rechargeable lithium batteries: CR14250SE-R (HMI and PLC), CR2320 (PC), and CR2430 (2x for oxygen sensor boards). While these batteries have a shelf life of 5 years at 25\u00b0C, replacement is recommended at least every 3 years.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the essential safety precautions for powder handling during maintenance?",
+    "ground_truth": "Users must wear appropriate PPE including eye protection, full face respirator (EN143 Type P3+A1), protective gloves, and full-length clothing made from non-static generating fabric like cotton (avoiding wool and man-made fabrics). Clothing should not have turn-ups or pockets that may trap powder. This follows NFPA 484 guidelines.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the key steps in the decommissioning process for AM250 or AM400 systems?",
+    "ground_truth": "Key steps include: 1) Inert and remove safe change filters, 2) Remove and clean all powder residue, 3) Clean system of residual dirt/process emissions, 4) Shut off and depressurize inert gas supply, 5) Remove gas supply hose, 6) Follow PC shutdown procedure, 7) Isolate electrical power, 8) Drain system coolant, 9) For AM400 only - disconnect dehumidifier supply hoses. Users must document all powder types used in the system.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What maintenance is required for the system's gas components?",
+    "ground_truth": "Regular gas safety checks must be performed to ensure the system is in working condition with no leaks. Damaged or defective parts should be replaced as needed. Records of gas safety checks must be maintained. Additionally, gas regulators cannot be calibrated and must be replaced at the end of their lifetime (typically five years as determined by the manufacturer).",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the requirements for powder storage and handling area maintenance?",
+    "ground_truth": "A regular maintenance regime should be developed for powder, storage, and handling areas. Areas must be periodically deep cleaned to remove all powder traces from spaces including trunking, ducting, ceiling tiles, flooring, and furniture. Powder must be stored according to applicable Safety Data Sheets and supplier recommendations to prevent explosion risks.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What special precautions are required when replacing the PC battery?",
+    "ground_truth": "Before removing the PC battery: 1) Record BIOS settings as PC will reset after battery removal, 2) Note locations of PC connections, 3) Follow proper ESD precautions using grounding or wrist strap, 4) Ensure system is electrically isolated and capacitors are discharged, 5) Support PC weight during removal as it may require two-person handling, 6) Properly document all connection locations for reassembly.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What ancillary equipment maintenance is required for the AM250 or AM400 system?",
+    "ground_truth": "Maintenance is required for multiple components including: silo lift, chiller, ATEX vacuum cleaner (wet separator), powder recovery system (sieve), laser system, dehumidifier (AM400 only), and gas detection system. Each component's maintenance should follow manufacturer guidelines in their respective user manuals. Additional equipment like furnaces may require maintenance per local legislation.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the complete process for setting up and starting a build?",
+    "ground_truth": "System preparation: Clean build chamber thoroughly, install correct build plate for material, set substrate thickness, install wiper blade and set height (0.05mm gap), install overflow bottles, install new safe change filter, check argon supply (>25 bar). Material preparation: Load powder into silo, ensure powder is sieved. Build setup: Transfer build file to machine, select file in interface, set heat soak temperature if required, set dosing percentage. Start process: Confirm all valves in correct position, start automatic chamber preparation, system will create inert atmosphere, build begins automatically once conditions met.",
     "type": "global"
+  },
+  {
+    "query": "What are the key maintenance requirements and schedules?",
+    "ground_truth": "Daily checks: Visual inspection of system, check safety devices, inspect glass components, clean process room. Weekly: Check chiller fluid levels, clean/check filters, inspect seals/hoses, check gas supplies. Monthly: Full system clean, replace safe change filter, check wiper system, deep clean powder handling areas. 6 Monthly: Full service by Renishaw engineer, replace system filters, check/replace batteries, clean behind silo, calibrate sensors. Annually: Full system inspection, replace key components, recertify safety systems.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the complete procedures for powder handling and material changes?",
+    "ground_truth": "Powder transfer procedures: Use proper PPE at all times, transfer from supplier containers to powder bottles, sieve all powder before use, use ATEX vacuum for cleanup. Material changeover steps: Empty and clean silo completely, remove and clean/replace dosing mechanism, deep clean all powder contact surfaces, clean/replace all hoses and fittings, clean overflow manifolds, clean recirculation system, replace or deep clean sieve, validate cleanliness before new material. Safety requirements: Maintain inert atmosphere when possible, no compressed air cleaning, proper ventilation, ATEX-rated equipment only, proper disposal of contaminated items.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the machine's technical specifications and requirements?",
+    "ground_truth": "Physical specifications: Dimensions: 853mm * 1700mm * 2115mm, Build volume: 250mm * 250mm * 300mm, Weight: Base unit 44.4kg empty. Utility requirements: Power: 220-240V, 16A, single phase, Argon: 10-50 L/hr consumption, 99.998% pure, Network: Standard RJ45 connection, Chilled water connection, AM400 only: Dry air supply. Operating parameters: Chamber pressure: 10-20 mbar overpressure, Oxygen level: <500ppm typical, Noise level: 67-68 dB, Build plate temp: Up to 170\u00b0C.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the maximum oxygen threshold for safely operating the AM400 build chamber?",
+    "ground_truth": "When accessing the build chamber to remove powder or perform maintenance after a build, the oxygen level must be below 7%. The documentation specifically mentions that before beginning the system clean-down, you should close the chamber door and 're-inert chamber to an oxygen level of less than 7%.' This threshold is important because removing oxygen from the chamber minimizes the risk of powder ignition. The system can dose additional inert gas (argon) to achieve and maintain this required oxygen level.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the complete post-build handling and cleaning procedures?",
+    "ground_truth": "System cooling: Wait for build plate temperature <40\u00b0C. Powder removal: Use proper PPE, Remove powder in stages using platform elevation, Use brushes and ATEX vacuum, Clean substrate and parts, Remove overflow bottles. Chamber cleaning: Clean all surfaces with IPA, Clean recirculation manifolds, Clean window/optics, Vacuum all residual powder, Clean door seals. Component cleaning: Clean/replace wiper blade, Clean silo if needed, Replace safe change filter, Clean overflow bottles. Documentation: Record cleaning completion, Note any issues, Update maintenance logs.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the complete troubleshooting steps for common issues?",
+    "ground_truth": "Common issues and solutions: Build failure (Check powder spread evenness, Verify wiper height setting, Confirm proper dosing percentage, Check gas flow and oxygen levels, Verify laser operation). Atmosphere issues (Check door seals, Verify gas supply pressure, Check oxygen sensor calibration, Inspect filter condition, Check valve positions). Mechanical problems (Verify wiper movement, Check platform movement, Inspect drive systems, Verify sensor operation). Software/control issues (Follow proper shutdown procedure, Check network connections, Verify file integrity, Contact Renishaw support). Safety system activation (Check door interlocks, Verify emergency stop operation, Confirm proper reset procedure).",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the proper cooling procedure after a build is completed on the AM400 system?",
+    "ground_truth": "After a build completes on the AM400 system, proper cooling is essential before opening the door. First, you need to close the safe change filter/large safe change filter valves (V4, V5, F1, and F2) when prompted by the control interface. These valves must remain closed until the filter is ready to be wet inerted. \n For the cooling phase, you must wait for the heater temperature PV (Present Value) to reach room temperature before opening the door. The manual specifically shows examples where you should allow the PV to drop below 40\u00b0C, with an ideal temperature being around 26\u00b0C as shown in the figures. \n This cooling period is necessary for safety reasons and to prevent thermal shock to components. The system must be allowed to cool naturally, and only after reaching appropriate temperature can you proceed with removing the overflow bottle and handling the built parts. The manual emphasizes that the safe change filter/large safe change filter must be replaced after every build, following the procedures in the referenced section.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What safety precautions must be taken when accessing the chamber while the heater is on?",
+    "ground_truth": "The main safety precaution mentioned is to exercise caution when accessing the chamber via the glove box while the heater is on. The manual specifically notes with a warning that \"IT IS POSSIBLE TO ACCESS THE CHAMBER VIA THE GLOVE BOX WHILST THE HEATER IS ON. ALWAYS CHECK THE CHAMBER TEMPERATURE VIA THE HMI TOUCH SCREEN BEFORE OPENING THE GLOVE BOX DOOR AND PROCEED WITH CAUTION.\"\nAdditionally, the document mentions that above 70\u00b0C (158\u00b0F), the main process chamber door remains interlocked and cannot be opened, but the glove box can still be accessed, hence the need for caution.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "Why is auto-tuning the heater necessary?",
+    "ground_truth": "Heater auto-tuning is used when a significantly thicker build plate is used or when the \"Heater May Require Tuning\" alarm message appears. The process determines the optimal settings for the best heater response (Proportional Band, Integral Constant, and Derivative Constant).",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the proper procedure for cleaning the window protection system on an AM400 system and how does it differ from the AM250?",
+    "ground_truth": "The AM400 uses a Window Protection System (WPS) with a bayonet-mounted lens assembly secured by four M4 bolts. To clean it: thoroughly clean the chamber first, remove the assembly by loosening the M4 bolts and rotating counter-clockwise, clean both sides of the window using only approved optic cleaner and tissues, draw dampened tissue across at 20mm/sec to avoid streaks, and avoid circular motions. Refit by aligning bayonet lugs, twisting clockwise, and securing with bolts tightened to 5 Nm. This differs from the standard AM250 which uses M8 bolts, a non-bayonet mount, and requires 10 Nm torque when reassembling.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the procedure for suppressing a specific part during an ongoing build?",
+    "ground_truth": "To suppress a specific part during an ongoing build, as detailed in section 27.7:\n\n1. In the Auto screen, press \"View Parameters\" and then \"Slice Preview\"\n2. Determine the number(s) of the part(s) to be suppressed from the displayed component numbers\n3. In the Auto screen, press \"Pause\" - additional functions will appear\n4. Press \"Suppress part\"\n5. Enter the part number into \"Suppress part number\" field\n6. Follow the on-screen prompts to confirm suppressing the part\n7. Repeat if necessary for each part number that needs to be suppressed\n8. Press \"Escape\" to exit the menu\n9. Press \"Play\" to resume the build with the selected parts suppressed",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What is the specific tightening sequence and torque specification when reassembling the lens protective window on an AM250 system?",
+    "ground_truth": "For the AM250 (without PlusPac), when reassembling the lens protective window:\n\n1. The four M8 bolts should first be tightened finger-tight using the long end of the hexagon key\n2. Then they should be tightened to approximately 10 Nm (7.4 lbf/ft)\n3. The specific tightening sequence is shown in Figure 338 and appears to follow a diagonal pattern (though the exact sequence numbers aren't visible in the text)\n4. Before reassembly, the o-ring should be inspected for damage and replaced if necessary\n5. A small smear of high vacuum grease (part number 769890 000) should be applied to the sealing o-ring\n\nThis precise sequence and torque specification helps ensure proper sealing and prevents damage to the optical components.",
+    "type": "unlabeled"
+  },
+  {
+    "query": "What are the specific lithium battery types used in the AM400 system, their locations, and replacement intervals?",
+    "ground_truth": "The AM400 system contains several non-rechargeable lithium batteries that require specific maintenance:\n1. HMI (Human Machine Interface) Battery: (a) Type: CR14250SE-R (b) Location: Bottom right corner of the HMI within the top electrical cabinet\n2. PC Battery: (a) Type: CR2320 (b) Location: Within the PC case near the cooling fan\n3. Oxygen Sensor Board Batteries: (a) Type: CR2430 (quantity: 2) (b) Location: Bottom left and right sides of the top electrical cabinet, behind plastic covers\n4. PLC Battery: (a) Type: CR14250SE-R (Omron part number CJ1W-BAT01) (b) Location: Second module on the left side of the rack in the rear electrical cabinet\nReplacement schedule:\n1. These batteries have a shelf life of 5 years (at 25\u00b0C)\n2. Replacement is recommended at least every 3 years\n3. For the PLC battery specifically: If replaced within five minutes (at 25\u00b0C) of switching off power to the PLC, memory backup should be maintained",
+    "type": "unlabeled"
   }
 ]

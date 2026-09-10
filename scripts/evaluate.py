@@ -7,6 +7,7 @@ Usage:
 """
 import argparse
 import json
+from collections import defaultdict
 
 import numpy as np
 
@@ -53,22 +54,27 @@ def main():
     client = Neo4jClient()
     llm = LLMClient()
 
-    results = {mode: {"granular": [], "global": []} for mode in MODES}
-    tokens_used = {mode: {"granular": [], "global": []} for mode in MODES}
+    # Grouped by whatever "type" values actually appear in the dataset (e.g. "granular",
+    # "global", or "unlabeled" for questions with no confirmed type) rather than assuming
+    # a fixed pair -- not every eval dataset carries the paper's granular/global split.
+    results = {mode: defaultdict(list) for mode in MODES}
+    tokens_used = {mode: defaultdict(list) for mode in MODES}
 
     for item in dataset:
-        qtype = item["type"]
+        qtype = item.get("type", "unlabeled")
         for mode_name, retrieve_fn in MODES.items():
             row, tokens = evaluate_item(llm, client, mode_name, retrieve_fn, item)
             results[mode_name][qtype].append(row)
             tokens_used[mode_name][qtype].append(tokens)
+
+    all_types = sorted({qtype for mode_results in results.values() for qtype in mode_results})
 
     header = f"{'Mode':<8}{'Type':<10}{'Faith':>8}{'Relev':>8}{'Prec':>8}{'Recall':>8}{'Rubric':>8}{'Tokens':>10}"
     print(header)
 
     composite_inputs = {}
     for mode_name in MODES:
-        for qtype in ("granular", "global"):
+        for qtype in all_types:
             rows = results[mode_name][qtype]
             if not rows:
                 continue
