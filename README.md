@@ -70,7 +70,25 @@ which video. `scripts/ask.py --videos` surfaces linked videos alongside an answe
 
 **2. Review and apply duplicate merges** (the paper's collaborative verification step):
 
-review `dedup_candidates.json`, write your accept/reject decisions as
+`dedup_candidates.json` entries carry two independent signals per pair: `similarity` (embedding
+cosine similarity) and `name_overlap` (lexical token overlap between the two names, 0-1) — a
+high-similarity pair with near-zero name overlap is worth extra scrutiny before merging, since
+pure embeddings can conflate entities whose descriptions are phrased alike but which are
+genuinely different things (e.g. "Argon Cylinder" vs. "Nitrogen Cylinder").
+
+The default similarity threshold (`DUP_SIM_THRESHOLD=0.92`) is a starting point, not a tuned
+value. Once you've built a real graph, run:
+
+```bash
+python -m scripts.calibrate_dedup_threshold
+```
+
+This pulls every entity from Neo4j, computes the actual within-category pairwise similarity
+distribution (mirroring the paper's Fig. 4b histogram), and prints the most-similar pairs so you
+can judge from real data where duplicates actually start — then set `DUP_SIM_THRESHOLD`
+accordingly and rebuild.
+
+Review `dedup_candidates.json`, write your accept/reject decisions as
 `[{"a": "<key to keep>", "b": "<key to remove>", "merge": true}, ...]`, then:
 
 ```bash

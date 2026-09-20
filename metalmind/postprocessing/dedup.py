@@ -5,13 +5,34 @@ import numpy as np
 from ..config import settings
 
 
+def name_token_overlap(name_a: str, name_b: str) -> float:
+    """Jaccard similarity between two entity names' lowercased word sets -- a cheap, independent
+    signal alongside embedding cosine similarity. Purely semantic similarity can conflate two
+    genuinely distinct entities whose descriptions happen to be phrased alike (e.g. "Argon
+    Cylinder" vs. "Nitrogen Cylinder"); this doesn't replace that judgment call, but it gives a
+    reviewer a second number to weigh instead of trusting one embedding threshold alone. Real
+    duplicates in the paper's own examples share tokens too (e.g. "Argon Supply Line" / "Argon
+    Gas Supply" / "Argon Supply" all share "Argon" and/or "Supply")."""
+    tokens_a = set(name_a.lower().split())
+    tokens_b = set(name_b.lower().split())
+    if not tokens_a or not tokens_b:
+        return 0.0
+    return len(tokens_a & tokens_b) / len(tokens_a | tokens_b)
+
+
 def find_candidate_duplicates(kg, threshold: float = None) -> list:
     """Embedding-similarity duplicate detection (paper §KG post-processing / Fig. 4b).
 
     Compares entities within the same category and flags pairs whose description
     embeddings exceed `threshold` cosine similarity as candidates for the collaborative
-    node-review step. Returns a JSON-serializable list, sorted most-similar first, meant
-    to be reviewed by a human (accept/reject) before merging.
+    node-review step. Each candidate also carries `name_overlap` (see `name_token_overlap`)
+    as a second, independent signal -- a low name overlap on an otherwise high-similarity pair
+    is worth extra scrutiny before accepting the merge. Returns a JSON-serializable list,
+    sorted most-similar first, meant to be reviewed by a human (accept/reject) before merging.
+
+    `threshold` itself is still a judgment call -- run `scripts/calibrate_dedup_threshold.py`
+    against your actual built graph to see the real similarity distribution (mirroring the
+    paper's Fig. 4b histogram) rather than trusting the default.
     """
     threshold = settings.duplicate_similarity_threshold if threshold is None else threshold
 
@@ -34,9 +55,10 @@ def find_candidate_duplicates(kg, threshold: float = None) -> list:
                         "name_b": entity_b.name,
                         "category": category,
                         "similarity": similarity,
+                        "name_overlap": name_token_overlap(entity_a.name, entity_b.name),
                     }
                 )
-    candidates.sort(key=lambda c: -c["similarity"])
+    candidates.sort(key=lambda c: (-c["similarity"], -c["name_overlap"]))
     return candidates
 
 

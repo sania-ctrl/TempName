@@ -116,6 +116,19 @@ class Neo4jClient:
             )
             return [(r["name"], r["description"], r["embedding"]) for r in result]
 
+    def all_entities_with_category(self):
+        """Like `all_entities`, but also returns each entity's derived schema category --
+        used by `scripts/calibrate_dedup_threshold.py` to inspect the real within-category
+        similarity distribution of a built graph, since dedup only ever compares same-category
+        entities."""
+        with self._driver.session() as session:
+            result = session.run(
+                "MATCH (n:Entity) WHERE n.embedding IS NOT NULL "
+                "RETURN n.name AS name, n.description AS description, n.embedding AS embedding, "
+                "n.category AS category"
+            )
+            return [(r["name"], r["description"], r["embedding"], r["category"]) for r in result]
+
     def neighbors(self, entity_name: str, hops: int = 1, limit: int = 15):
         with self._driver.session() as session:
             result = session.run(
