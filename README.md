@@ -103,6 +103,47 @@ All tests run offline: `tests/conftest.py` mocks the sentence-transformers embed
 tiktoken's encoding so no network access or GPU is required to validate the pipeline logic
 (chunking, extraction/relation wiring, dedup, pruning, retrieval, metrics, composite scoring).
 
+## ontology_kg: a separate project
+
+`ontology_kg/` is a deliberately separate package from `metalmind/` — a different knowledge
+graph, not part of the Renishaw AM400 replication. Instead of deriving its schema dynamically
+per corpus (Algorithm 1), it applies one fixed, hand-designed ontology across four AM processes
+(FFF, SLA, LPBF, Sintering), each backed by two academic papers, into a single combined graph:
+
+```
+(:ManufacturingProcess)-[:HAS]->(:ProcessParameter)-[:AFFECTS]->(:PartProperty)
+```
+
+It reuses `metalmind`'s generic infrastructure — the OpenAI client wrapper, the
+sentence-transformers embedding wrapper, and the token-based chunker — since those are
+provider/utility code, not Renishaw-specific. But it has its own extraction prompts
+(`ontology_kg/prompts.py`), its own single-pass pipeline (`ontology_kg/pipeline.py`, no
+schema-derivation phase since the classes are fixed), and — deliberately — its own Neo4j
+database (the `neo4j-ontology` service in `docker-compose.yml`, bolt port 7688), so wiping
+either project's graph never touches the other's.
+
+**Usage**: write a manifest mapping each process to its paper file paths (plain text or
+Markdown; a partial manifest — not all four processes, not exactly two papers each — is fine):
+
+```json
+{
+  "FFF": ["papers/fff_paper1.md", "papers/fff_paper2.md"],
+  "SLA": ["papers/sla_paper1.md", "papers/sla_paper2.md"],
+  "LPBF": ["papers/lpbf_paper1.md", "papers/lpbf_paper2.md"],
+  "Sintering": ["papers/sintering_paper1.md", "papers/sintering_paper2.md"]
+}
+```
+
+```bash
+python -m scripts.build_ontology_kg --manifest papers_manifest.json --wipe
+```
+
+Browse the result in Neo4j at http://localhost:7475 (note the different port from metalmind's
+Neo4j at :7474) — login `neo4j` / `ontologykg123` by default (`.env`'s `ONTOLOGY_NEO4J_PASSWORD`).
+
+There's no retrieval/eval harness for this project yet (unlike `metalmind`) — it's KG
+construction only, for now.
+
 ## Architecture notes
 
 - Entities are deduplicated across chunks by normalized name at construction time; the

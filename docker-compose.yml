@@ -12,5 +12,23 @@ services:
     volumes:
       - neo4j_data:/data
 
+  # Separate database for ontology_kg (the fixed-ontology, multi-process/paper project) so that
+  # wiping one graph (e.g. `--wipe` on either build script) never touches the other. Neo4j
+  # Community Edition doesn't support multiple databases in one instance, hence a second
+  # container rather than a second database.
+  neo4j-ontology:
+    image: neo4j:5.19-community
+    container_name: ontology-kg-neo4j
+    ports:
+      - "7475:7474"   # HTTP browser UI
+      - "7688:7687"   # Bolt protocol
+    environment:
+      - NEO4J_AUTH=neo4j/${ONTOLOGY_NEO4J_PASSWORD:-ontologykg123}
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+    volumes:
+      - neo4j_ontology_data:/data
+
 volumes:
   neo4j_data:
+  neo4j_ontology_data:
