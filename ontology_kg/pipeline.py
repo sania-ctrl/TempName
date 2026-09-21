@@ -59,6 +59,47 @@ class OntologyGraph:
         return key
 
 
+def process_paper(
+    graph: OntologyGraph, process: str, paper_id: str, text: str, llm, chunk_size: int = 600, chunk_overlap: int = 100
+) -> None:
+    """Extract one paper's parameters/properties/relations into `graph`, mutated in place.
+
+    Split out from `build_ontology_graph` so a caller can persist to Neo4j after each paper
+    completes (see scripts/build_ontology_kg.py) instead of holding everything in memory until
+    the very end -- a real run (8 papers, hundreds of LLM calls, each one a network round trip
+    that can be rate-limited) has a real chance of being interrupted partway through, and losing
+    every paper's progress because of the last one is much worse than losing just the last one.
+    """
+    if process not in PROCESS_TYPES:
+        raise ValueError(f"Unknown process '{process}'; expected one of {PROCESS_TYPES}")
+
+    chunks = chunk_text(paper_id, text, chunk_size, chunk_overlap)
+    for chunk in chunks:
+        graph.chunks[chunk.chunk_id] = chunk
+
+    for chunk in tqdm(chunks, desc=f"{process} / {paper_id}"):
+        raw_parameters, raw_properties = extraction.extract_parameters_and_properties(llm, chunk, process)
+
+        for p in raw_parameters:
+            key = graph.upsert_parameter(p.name, p.description, chunk.chunk_id)
+            graph.has_relations.add((process, graph.parameters[key].name))
+        for p in raw_properties:
+            graph.upsert_property(p.name, p.description, chunk.chunk_id)
+
+        for a in extraction.extract_affects(llm, chunk, raw_parameters, raw_properties):
+            graph.affects_relations.append(
+                AffectsRelation(parameter=a.parameter, part_property=a.part_property, source_chunk_id=chunk.chunk_id)
+            )
+
+
+def embed_new_entities(graph: OntologyGraph) -> None:
+    """(Re-)embed any parameter/property that doesn't have an embedding yet. Cheap and local
+    (sentence-transformers, no network/rate-limit concerns), safe to call repeatedly as the
+    graph grows paper by paper."""
+    _embed_entities({k: v for k, v in graph.parameters.items() if v.embedding is None})
+    _embed_entities({k: v for k, v in graph.properties.items() if v.embedding is None})
+
+
 def build_ontology_graph(
     papers_by_process: dict, llm, chunk_size: int = 600, chunk_overlap: int = 100
 ) -> OntologyGraph:
@@ -69,35 +110,16 @@ def build_ontology_graph(
     `(paper_id, text)` tuples -- one entry per source paper, already loaded as plain/Markdown
     text. Unlike metalmind's Algorithm 1, there is no schema-derivation phase: the three
     classes are fixed, so extraction is a single pass per chunk.
+
+    Convenience wrapper that builds everything in memory in one call (used by tests and for
+    small ad-hoc runs); for a long real run, prefer calling `process_paper` per paper and
+    persisting to Neo4j after each one (see scripts/build_ontology_kg.py) for crash resilience.
     """
     graph = OntologyGraph()
-
     for process, papers in papers_by_process.items():
-        if process not in PROCESS_TYPES:
-            raise ValueError(f"Unknown process '{process}'; expected one of {PROCESS_TYPES}")
-
         for paper_id, text in papers:
-            chunks = chunk_text(paper_id, text, chunk_size, chunk_overlap)
-            for chunk in chunks:
-                graph.chunks[chunk.chunk_id] = chunk
-
-            for chunk in tqdm(chunks, desc=f"{process} / {paper_id}"):
-                raw_parameters, raw_properties = extraction.extract_parameters_and_properties(llm, chunk, process)
-
-                for p in raw_parameters:
-                    key = graph.upsert_parameter(p.name, p.description, chunk.chunk_id)
-                    graph.has_relations.add((process, graph.parameters[key].name))
-                for p in raw_properties:
-                    graph.upsert_property(p.name, p.description, chunk.chunk_id)
-
-                for a in extraction.extract_affects(llm, chunk, raw_parameters, raw_properties):
-                    graph.affects_relations.append(
-                        AffectsRelation(parameter=a.parameter, part_property=a.part_property, source_chunk_id=chunk.chunk_id)
-                    )
-
-    _embed_entities(graph.parameters)
-    _embed_entities(graph.properties)
-
+            process_paper(graph, process, paper_id, text, llm, chunk_size, chunk_overlap)
+    embed_new_entities(graph)
     return graph
 
 

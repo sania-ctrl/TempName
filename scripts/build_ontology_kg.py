@@ -8,6 +8,10 @@ SLA, LBM, Sintering), using the schema:
 sourced from two papers per process. Loads into its own Neo4j instance (see docker-compose.yml's
 neo4j-ontology service) so `--wipe` here never touches metalmind's Renishaw graph.
 
+Persists to Neo4j after EVERY paper, not just at the end -- a real run is hundreds of LLM calls
+long and can be interrupted (rate limits, a crash, a closed laptop); this way a mid-run
+interruption only costs you the current paper's progress, not the whole run's.
+
 Usage:
     python -m scripts.build_ontology_kg --manifest papers_manifest.json --wipe
 
@@ -28,7 +32,7 @@ from ontology_kg.config import settings
 from ontology_kg.graph_store import load_ontology_graph
 from ontology_kg.llm_client import LLMClient
 from ontology_kg.neo4j_client import Neo4jClient
-from ontology_kg.pipeline import build_ontology_graph
+from ontology_kg.pipeline import OntologyGraph, embed_new_entities, process_paper
 
 
 def main():
@@ -42,28 +46,46 @@ def main():
         raise SystemExit(f"No processes found in {args.manifest}")
 
     papers_by_process = {}
+    total_papers = 0
     for process, paper_paths in manifest.items():
         papers_by_process[process] = [
             (Path(p).stem, Path(p).read_text(encoding="utf-8")) for p in paper_paths
         ]
+        total_papers += len(paper_paths)
         print(f"{process}: loaded {len(paper_paths)} paper(s)")
 
     llm = LLMClient(model=settings.openai_model, api_key=settings.openai_api_key)
-    graph = build_ontology_graph(
-        papers_by_process, llm, chunk_size=settings.chunk_size_tokens, chunk_overlap=settings.chunk_overlap_tokens
-    )
-    print(
-        f"Extracted {len(graph.parameters)} process parameters, {len(graph.properties)} part properties, "
-        f"{len(graph.has_relations)} HAS relations, {len(graph.affects_relations)} AFFECTS relations"
-    )
-    print(f"LLM tokens used: {llm.total_tokens}")
-
     client = Neo4jClient(uri=settings.neo4j_uri, user=settings.neo4j_user, password=settings.neo4j_password)
     if args.wipe:
         client.wipe()
-    load_ontology_graph(client, graph)
-    client.close()
-    print(f"Loaded ontology knowledge graph into Neo4j at {settings.neo4j_uri}")
+
+    graph = OntologyGraph()
+    done = 0
+    try:
+        for process, papers in papers_by_process.items():
+            for paper_id, text in papers:
+                process_paper(
+                    graph,
+                    process,
+                    paper_id,
+                    text,
+                    llm,
+                    chunk_size=settings.chunk_size_tokens,
+                    chunk_overlap=settings.chunk_overlap_tokens,
+                )
+                embed_new_entities(graph)
+                load_ontology_graph(client, graph)
+                done += 1
+                print(
+                    f"[{done}/{total_papers}] Saved to Neo4j after {process}/{paper_id} -- "
+                    f"{len(graph.parameters)} parameters, {len(graph.properties)} properties, "
+                    f"{len(graph.has_relations)} HAS, {len(graph.affects_relations)} AFFECTS so far"
+                )
+    finally:
+        client.close()
+
+    print(f"LLM tokens used: {llm.total_tokens}")
+    print(f"Finished: {done}/{total_papers} papers loaded into Neo4j at {settings.neo4j_uri}")
 
 
 if __name__ == "__main__":
