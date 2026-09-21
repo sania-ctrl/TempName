@@ -1,6 +1,7 @@
-"""Build the fixed-ontology, multi-process manufacturing knowledge graph -- a separate project
-from the Renishaw AM400 replication in `metalmind`. One combined graph across up to four AM
-processes (FFF, SLA, LPBF, Sintering), using the schema:
+"""Build the fixed-ontology, multi-process manufacturing knowledge graph -- fully independent of
+the Renishaw AM400 replication in `metalmind` (its own code, its own database, no import of
+metalmind anywhere in this package). One combined graph across up to four AM processes (FFF,
+SLA, LPBF, Sintering), using the schema:
 
     (:ManufacturingProcess)-[:HAS]->(:ProcessParameter)-[:AFFECTS]->(:PartProperty)
 
@@ -23,11 +24,10 @@ import argparse
 import json
 from pathlib import Path
 
-from metalmind.graph_store.neo4j_client import Neo4jClient
-from metalmind.llm.client import LLMClient
-
 from ontology_kg.config import settings
 from ontology_kg.graph_store import load_ontology_graph
+from ontology_kg.llm_client import LLMClient
+from ontology_kg.neo4j_client import Neo4jClient
 from ontology_kg.pipeline import build_ontology_graph
 
 

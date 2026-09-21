@@ -3,10 +3,8 @@ from typing import Optional
 
 from tqdm import tqdm
 
-from metalmind import embeddings
-from metalmind.preprocessing.chunking import chunk_markdown
-
-from . import extraction
+from . import embeddings, extraction
+from .chunking import chunk_text
 
 PROCESS_TYPES = ("FFF", "SLA", "LPBF", "Sintering")
 
@@ -79,7 +77,7 @@ def build_ontology_graph(
             raise ValueError(f"Unknown process '{process}'; expected one of {PROCESS_TYPES}")
 
         for paper_id, text in papers:
-            chunks = chunk_markdown(paper_id, text, chunk_size, chunk_overlap)
+            chunks = chunk_text(paper_id, text, chunk_size, chunk_overlap)
             for chunk in chunks:
                 graph.chunks[chunk.chunk_id] = chunk
 

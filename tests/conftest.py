@@ -5,6 +5,7 @@ import pytest
 import tiktoken
 
 import metalmind.embeddings as embeddings_module
+import ontology_kg.embeddings as ontology_embeddings_module
 
 
 class _FakeEncoding:
@@ -40,7 +41,9 @@ def fake_embeddings(monkeypatch):
 
     Call sites use `from .. import embeddings; embeddings.embed_texts(...)` (rather than
     `from ..embeddings import embed_texts`) specifically so this monkeypatch is observed
-    everywhere.
+    everywhere. Patches both metalmind's and ontology_kg's embedding modules -- they're
+    separate implementations (ontology_kg has no import dependency on metalmind), so each
+    needs its own patch.
     """
 
     def _fake_embed_texts(texts):
@@ -49,5 +52,6 @@ def fake_embeddings(monkeypatch):
             return np.zeros((0, 16))
         return np.stack([_deterministic_vector(t) for t in texts])
 
-    monkeypatch.setattr(embeddings_module, "embed_texts", _fake_embed_texts)
-    monkeypatch.setattr(embeddings_module, "embed_text", lambda t: _fake_embed_texts([t])[0])
+    for module in (embeddings_module, ontology_embeddings_module):
+        monkeypatch.setattr(module, "embed_texts", _fake_embed_texts)
+        monkeypatch.setattr(module, "embed_text", lambda t: _fake_embed_texts([t])[0])

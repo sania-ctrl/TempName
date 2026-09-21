@@ -132,13 +132,14 @@ per corpus (Algorithm 1), it applies one fixed, hand-designed ontology across fo
 (:ManufacturingProcess)-[:HAS]->(:ProcessParameter)-[:AFFECTS]->(:PartProperty)
 ```
 
-It reuses `metalmind`'s generic infrastructure — the OpenAI client wrapper, the
-sentence-transformers embedding wrapper, and the token-based chunker — since those are
-provider/utility code, not Renishaw-specific. But it has its own extraction prompts
-(`ontology_kg/prompts.py`), its own single-pass pipeline (`ontology_kg/pipeline.py`, no
-schema-derivation phase since the classes are fixed), and — deliberately — its own Neo4j
-database (the `neo4j-ontology` service in `docker-compose.yml`, bolt port 7688), so wiping
-either project's graph never touches the other's.
+It has **no code dependency on `metalmind` at all** — its own OpenAI client wrapper
+(`ontology_kg/llm_client.py`), its own embedding wrapper (`ontology_kg/embeddings.py`), its own
+chunker (`ontology_kg/chunking.py`), its own Neo4j driver wrapper (`ontology_kg/neo4j_client.py`),
+its own extraction prompts (`ontology_kg/prompts.py`), and its own single-pass pipeline
+(`ontology_kg/pipeline.py`, no schema-derivation phase since the classes are fixed). It also has
+its own Neo4j database (the `neo4j-ontology` service in `docker-compose.yml`, bolt port 7688), so
+wiping either project's graph never touches the other's. The two projects share nothing except
+this one repo and the same `OPENAI_API_KEY` value in `.env` (same account, not shared code).
 
 **Usage**: write a manifest mapping each process to its paper file paths (plain text or
 Markdown; a partial manifest — not all four processes, not exactly two papers each — is fine):

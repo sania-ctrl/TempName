@@ -4,11 +4,10 @@ from .pipeline import OntologyGraph
 def load_ontology_graph(client, graph: OntologyGraph) -> None:
     """Load an OntologyGraph into Neo4j using the fixed schema:
     (:ManufacturingProcess)-[:HAS]->(:ProcessParameter)-[:AFFECTS]->(:PartProperty), with
-    :Document chunk provenance and :MENTIONED_IN edges mirroring metalmind's pattern.
+    :Document chunk provenance and :MENTIONED_IN edges for traceability.
 
-    `client` is a `metalmind.graph_store.neo4j_client.Neo4jClient` -- reused as a thin,
-    provider-agnostic Neo4j driver wrapper, but pointed at ontology_kg's own database
-    (see ontology_kg/config.py) so this never touches metalmind's Renishaw graph.
+    `client` is an `ontology_kg.neo4j_client.Neo4jClient`, pointed at ontology_kg's own
+    database (see ontology_kg/config.py) -- fully independent of metalmind's Renishaw graph.
     """
     with client._driver.session() as session:
         processes = {process for process, _ in graph.has_relations}
