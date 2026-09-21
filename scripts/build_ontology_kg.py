@@ -1,7 +1,7 @@
 """Build the fixed-ontology, multi-process manufacturing knowledge graph -- fully independent of
 the Renishaw AM400 replication in `metalmind` (its own code, its own database, no import of
 metalmind anywhere in this package). One combined graph across up to four AM processes (FFF,
-SLA, LPBF, Sintering), using the schema:
+SLA, LBM, Sintering), using the schema:
 
     (:ManufacturingProcess)-[:HAS]->(:ProcessParameter)-[:AFFECTS]->(:PartProperty)
 
@@ -15,7 +15,7 @@ Manifest format (paths point to plain text or Markdown files, one per paper):
     {
       "FFF": ["papers/fff_paper1.md", "papers/fff_paper2.md"],
       "SLA": ["papers/sla_paper1.md", "papers/sla_paper2.md"],
-      "LPBF": ["papers/lpbf_paper1.md", "papers/lpbf_paper2.md"],
+      "LBM": ["papers/lbm_paper1.md", "papers/lbm_paper2.md"],
       "Sintering": ["papers/sintering_paper1.md", "papers/sintering_paper2.md"]
     }
 You don't need all four processes or exactly two papers each -- the manifest can be partial.

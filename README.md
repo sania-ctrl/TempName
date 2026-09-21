@@ -126,7 +126,7 @@ tiktoken's encoding so no network access or GPU is required to validate the pipe
 `ontology_kg/` is a deliberately separate package from `metalmind/` — a different knowledge
 graph, not part of the Renishaw AM400 replication. Instead of deriving its schema dynamically
 per corpus (Algorithm 1), it applies one fixed, hand-designed ontology across four AM processes
-(FFF, SLA, LPBF, Sintering), each backed by two academic papers, into a single combined graph:
+(FFF, SLA, LBM, Sintering), each backed by two academic papers, into a single combined graph:
 
 ```
 (:ManufacturingProcess)-[:HAS]->(:ProcessParameter)-[:AFFECTS]->(:PartProperty)
@@ -148,7 +148,7 @@ Markdown; a partial manifest — not all four processes, not exactly two papers 
 {
   "FFF": ["papers/fff_paper1.md", "papers/fff_paper2.md"],
   "SLA": ["papers/sla_paper1.md", "papers/sla_paper2.md"],
-  "LPBF": ["papers/lpbf_paper1.md", "papers/lpbf_paper2.md"],
+  "LBM": ["papers/lbm_paper1.md", "papers/lbm_paper2.md"],
   "Sintering": ["papers/sintering_paper1.md", "papers/sintering_paper2.md"]
 }
 ```

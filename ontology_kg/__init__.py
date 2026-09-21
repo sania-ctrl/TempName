@@ -4,7 +4,7 @@ Fully independent of `metalmind` (the Renishaw AM400 user-guide replication of t
 paper) -- no code in this package imports from `metalmind`, and it has its own Neo4j database.
 Where `metalmind` *derives* its schema dynamically per corpus via clustering (Algorithm 1),
 this project applies one hand-designed, fixed ontology across four AM processes (FFF, SLA,
-LPBF, Sintering), each backed by two academic papers, into a single combined graph:
+LBM, Sintering), each backed by two academic papers, into a single combined graph:
 
     (:ManufacturingProcess)-[:HAS]->(:ProcessParameter)-[:AFFECTS]->(:PartProperty)
 

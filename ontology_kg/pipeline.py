@@ -6,7 +6,7 @@ from tqdm import tqdm
 from . import embeddings, extraction
 from .chunking import chunk_text
 
-PROCESS_TYPES = ("FFF", "SLA", "LPBF", "Sintering")
+PROCESS_TYPES = ("FFF", "SLA", "LBM", "Sintering")
 
 
 @dataclass

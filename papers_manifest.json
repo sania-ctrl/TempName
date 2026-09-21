@@ -1,0 +1,18 @@
+{
+  "FFF": [
+    "data/ontology_papers/FFF/fff_numerical_simulation_review.md",
+    "data/ontology_papers/FFF/fff_defects_review.md"
+  ],
+  "SLA": [
+    "data/ontology_papers/SLA/sla_dental_alumina_ceramics.md",
+    "data/ontology_papers/SLA/sla_ferromagnetic_polymer.md"
+  ],
+  "LBM": [
+    "data/ontology_papers/LBM/lbm_review.md",
+    "data/ontology_papers/LBM/lbm_alumina_computational_model.md"
+  ],
+  "Sintering": [
+    "data/ontology_papers/Sintering/sintering_ag_nanoparticle_kinetics.md",
+    "data/ontology_papers/Sintering/sintering_ultrahigh_temp_tem.md"
+  ]
+}

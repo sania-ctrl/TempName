@@ -38,9 +38,9 @@ class FakeOntologyLLM:
 
 def _papers():
     return {
-        "LPBF": [
+        "LBM": [
             (
-                "lpbf_paper1",
+                "lbm_paper1",
                 "Laser power was varied to study its effect on Porosity in the fused part.",
             )
         ],
@@ -56,7 +56,7 @@ def test_build_ontology_graph_extracts_parameters_properties_and_relations():
     assert param_names == {"Laser Power", "Layer Height"}
     assert property_names == {"Porosity"}
 
-    assert ("LPBF", "Laser Power") in graph.has_relations
+    assert ("LBM", "Laser Power") in graph.has_relations
     assert ("FFF", "Layer Height") in graph.has_relations
     assert len(graph.has_relations) == 2
 
